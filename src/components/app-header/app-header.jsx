@@ -2,11 +2,13 @@ import React from 'react';
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import NavLink from "../nav-link/nav-link";
 import styles from "./app-header.module.css";
+import EmptySpace from "../empty-space/empty-space";
 
 class AppHeader extends React.Component {
   render() {
     return (
-      <header className="pt-4 pb-4">
+      <header>
+        <EmptySpace height="X30"/>
         <nav className={styles.nav}>
           <div className={`${styles.navItem}`}>
             <NavLink title="Конструктор" icon={<BurgerIcon type="primary"/>}/>
@@ -19,6 +21,7 @@ class AppHeader extends React.Component {
             <NavLink title="Личный кабинет" icon={<ProfileIcon type="primary"/>}/>
           </div>
         </nav>
+        <EmptySpace height="X2"/>
       </header>
     );
   }
