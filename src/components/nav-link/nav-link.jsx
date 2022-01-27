@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './nav-link.module.css';
-import { BurgerIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 class NavLink extends React.Component {
   render() {
