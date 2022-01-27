@@ -8,7 +8,7 @@ class AppHeader extends React.Component {
   render() {
     return (
       <header>
-        <EmptySpace height="X30"/>
+        <EmptySpace height="X4"/>
         <nav className={styles.nav}>
           <div className={`${styles.navItem}`}>
             <NavLink title="Конструктор" icon={<BurgerIcon type="primary"/>}/>
@@ -21,7 +21,7 @@ class AppHeader extends React.Component {
             <NavLink title="Личный кабинет" icon={<ProfileIcon type="primary"/>}/>
           </div>
         </nav>
-        <EmptySpace height="X2"/>
+        <EmptySpace height="X4"/>
       </header>
     );
   }
