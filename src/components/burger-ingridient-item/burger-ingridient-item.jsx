@@ -7,6 +7,7 @@ class BurgerIngredientItem extends React.Component {
   render() {
     return (
       <div className={styles.item}>
+        <EmptySpace height="X6"/>
         <div className="image">
           <img src="https://code.s3.yandex.net/react/code/bun-02.png"/>
         </div>
