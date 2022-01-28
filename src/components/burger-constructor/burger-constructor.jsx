@@ -7,15 +7,14 @@ class BurgerConstructor extends React.Component {
   
   render(props) {
     const { data } = this.props;
-    const demoData = [data[5], data[4], data[7], data[8], data[8]];
+    const demoData = [data[5], data[4], data[7], data[8], data[8], data[5], data[4], data[7], data[8], data[8]];
     console.log('data', data);
     
     return (
       <section className={styles.root}>
-        <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+        <div style={{display: 'flex', flexDirection: 'column'}}>
           <EmptySpace height="X25"/>
-          <div className={styles.item}>
-            <DragIcon type="primary"/>
+          <div className={`${styles.item} pr-4`} style={{justifyContent: 'flex-end'}}>
             <ConstructorElement
               type="top"
               isLocked={true}
@@ -24,8 +23,9 @@ class BurgerConstructor extends React.Component {
               thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
             />
           </div>
+          <div className={styles.wrapper}>
           {demoData.map(item => (
-            <div className={styles.item}>
+            <div className={`${styles.item} pr-2`}>
               <DragIcon type="primary"/>
               <ConstructorElement
                 key={item.name}
@@ -37,8 +37,8 @@ class BurgerConstructor extends React.Component {
               />
             </div>
           ))}
-          <div className={styles.item}>
-            <DragIcon type="primary"/>
+          </div>
+          <div className={`${styles.item} pr-4`} style={{justifyContent: 'flex-end'}}>
             <ConstructorElement
               type="bottom"
               isLocked={true}
