@@ -4,7 +4,12 @@ import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktiku
 import EmptySpace from "../empty-space/empty-space";
 
 class BurgerConstructor extends React.Component {
-  render() {
+  
+  render(props) {
+    const { data } = this.props;
+    const demoData = [data[5], data[4], data[7], data[8], data[8]];
+    console.log('data', data);
+    
     return (
       <section className={styles.root}>
         <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
@@ -19,30 +24,19 @@ class BurgerConstructor extends React.Component {
               thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
             />
           </div>
-          <div className={styles.item}>
-            <DragIcon type="primary"/>
-            <ConstructorElement
-              text="Соус традиционный галактический"
-              price={30}
-              thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
-            />
-          </div>
-          <div className={styles.item}>
-            <DragIcon type="primary"/>
-            <ConstructorElement
-              text="Мясо бессмертных моллюсков Protostomia"
-              price={300}
-              thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
-            />
-          </div>
-          <div className={styles.item}>
-            <DragIcon type="primary"/>
-            <ConstructorElement
-              text="Плоды Фалленианского дерева"
-              price={80}
-              thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
-            />
-          </div>
+          {demoData.map(item => (
+            <div className={styles.item}>
+              <DragIcon type="primary"/>
+              <ConstructorElement
+                key={item.name}
+                type={item.type}
+                isLocked={true}
+                text={item.name}
+                price={item.price}
+                thumbnail={item.image}
+              />
+            </div>
+          ))}
           <div className={styles.item}>
             <DragIcon type="primary"/>
             <ConstructorElement
