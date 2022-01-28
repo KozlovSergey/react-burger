@@ -10,8 +10,8 @@ function App() {
     <div className={styles.app}>
       <AppHeader/>
       <main className={styles.main}>
-        <BurgerIngredients props={data} />
-        <BurgerConstructor props={data} />
+        <BurgerIngredients data={data} />
+        <BurgerConstructor data={data} />
       </main>
     </div>
   );
