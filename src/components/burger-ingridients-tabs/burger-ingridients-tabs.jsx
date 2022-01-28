@@ -5,7 +5,7 @@ class BurgerIngredientsTabs extends React.Component {
   render() {
     const tabs = [
       {
-        name: 'loaf',
+        name: 'bun',
         title: 'Булки',
       },
       {
