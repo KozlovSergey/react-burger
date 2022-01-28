@@ -6,9 +6,7 @@ import EmptySpace from "../empty-space/empty-space";
 class BurgerConstructor extends React.Component {
   
   render(props) {
-    const { data } = this.props;
-    const demoData = [data[5], data[4], data[7], data[8], data[8], data[5], data[4], data[7], data[8], data[8]];
-    console.log('data', data);
+    const {data} = this.props;
     
     return (
       <section className={styles.root}>
@@ -24,19 +22,18 @@ class BurgerConstructor extends React.Component {
             />
           </div>
           <div className={styles.wrapper}>
-          {demoData.map(item => (
-            <div className={`${styles.item} pr-2`}>
-              <DragIcon type="primary"/>
-              <ConstructorElement
-                key={item.name}
-                type={item.type}
-                isLocked={true}
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image}
-              />
-            </div>
-          ))}
+            {data.slice(1, -1).map((item) => (
+              <div className={`${styles.item} pr-2`} key={item._id}>
+                <DragIcon type="primary"/>
+                <ConstructorElement
+                  type={item.type}
+                  isLocked={true}
+                  text={item.name}
+                  price={item.price}
+                  thumbnail={item.image}
+                />
+              </div>
+            ))}
           </div>
           <div className={`${styles.item} pr-4`} style={{justifyContent: 'flex-end'}}>
             <ConstructorElement

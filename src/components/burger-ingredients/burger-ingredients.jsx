@@ -25,7 +25,7 @@ class BurgerIngredients extends React.Component {
           </h2>
           <div className={styles.burger_ingredients_wrapper}>
             {buns.map(item => (
-              <BurgerIngredientItem itemData={item}/>
+              <BurgerIngredientItem itemData={item} key={item._id}/>
             ))}
           </div>
           <h2 className="text text_type_main-medium">
@@ -33,7 +33,7 @@ class BurgerIngredients extends React.Component {
           </h2>
           <div className={styles.burger_ingredients_wrapper}>
             {sauces.map(item => (
-              <BurgerIngredientItem itemData={item}/>
+              <BurgerIngredientItem itemData={item} key={item._id}/>
             ))}
           </div>
           <h2 className="text text_type_main-medium">
@@ -41,7 +41,7 @@ class BurgerIngredients extends React.Component {
           </h2>
           <div className={styles.burger_ingredients_wrapper}>
             {mains.map(item => (
-              <BurgerIngredientItem itemData={item}/>
+              <BurgerIngredientItem itemData={item} key={item._id}/>
             ))}
           </div>
         </div>
