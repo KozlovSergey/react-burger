@@ -9,6 +9,11 @@
   align-items: center;
 }
 
+.item:nth-child(2) > svg,
+.item:last-child > svg {
+  opacity: 0;
+}
+
 .item .constructor-element {
   margin-right: 16px;
 }
