@@ -1,8 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import EmptySpace from "../empty-space/empty-space";
 import BurgerIngredientsTabs from "../burger-ingridients-tabs/burger-ingridients-tabs";
 import BurgerIngredientItem from "../burger-ingridient-item/burger-ingridient-item";
 import styles from "./burger-ingredients.module.css";
+import ingredientType from "../../utils/ingridient.type";
 
 class BurgerIngredients extends React.Component {
   render(props) {
@@ -49,5 +51,9 @@ class BurgerIngredients extends React.Component {
     )
   }
 }
+
+BurgerIngredients.propTypes = {
+  ingredients: ingredientType.isRequired
+};
 
 export default BurgerIngredients;
