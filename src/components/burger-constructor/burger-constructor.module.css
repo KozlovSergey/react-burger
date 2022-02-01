@@ -1,0 +1,64 @@
+.root {
+  width: 600px;
+  margin-left: 40px;
+}
+
+.wrapper {
+  height: 464px;
+  overflow-y: scroll;
+}
+
+.wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.wrapper::-webkit-scrollbar-track {
+  background: #2F2F37;
+}
+
+.wrapper::-webkit-scrollbar-thumb {
+  background: #8585AD;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.item:last-child {
+  margin-top: 16px;
+  margin-bottom: 0;
+}
+
+.item .constructor-element {
+  margin-right: 16px;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.price {
+  display: flex;
+  flex-flow: row nowrap;
+  margin-right: 40px;
+}
+
+.price_value {
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+}
+
+.price_currency svg {
+  width: 36px;
+  height: 36px;
+}
+
+.button_wrapper {
+
+}

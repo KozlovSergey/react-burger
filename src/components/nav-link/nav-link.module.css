@@ -1,0 +1,21 @@
+.link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.link svg {
+  fill: #8585AD !important;
+}
+
+.link:hover svg {
+  fill: #F2F2F3 !important;
+}
+
+.link .text {
+  color: #8585AD;
+}
+
+.link:hover .text {
+  color: #F2F2F3;
+}
