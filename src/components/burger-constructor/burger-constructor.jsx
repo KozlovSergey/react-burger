@@ -54,7 +54,7 @@ const BurgerConstructor = (props) => {
             </span>
           </div>
           <div className={styles.button_wrapper}>
-            <Button type="primary" size="large">
+            <Button type="primary" size="large" onClick={() => props.openModal()}>
               Оформить заказ
             </Button>
           </div>
