@@ -27,7 +27,7 @@ const BurgerConstructor = (props) => {
                 <DragIcon type="primary"/>
                 <ConstructorElement
                   type={item.type}
-                  isLocked={true}
+                  isLocked={false}
                   text={item.name}
                   price={item.price}
                   thumbnail={item.image}
