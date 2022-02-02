@@ -5,10 +5,8 @@ import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktiku
 import EmptySpace from "../empty-space/empty-space";
 import ingredientType from "../../utils/ingridient.type";
 
-class BurgerConstructor extends React.Component {
-  
-  render(props) {
-    const {data} = this.props;
+const BurgerConstructor = (props) => {
+    const {data} = props;
     
     return (
       <section className={styles.root}>
@@ -63,7 +61,6 @@ class BurgerConstructor extends React.Component {
         </div>
       </section>
     )
-  }
 }
 
 BurgerConstructor.propTypes = {

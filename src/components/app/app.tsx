@@ -5,7 +5,7 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import styles from './app.module.css';
 import { API_GET_DATA } from "../../utils/constants";
 
-function App() {
+const App = () => {
   const [data, setData] = React.useState([]);
 
   useEffect(() => {
