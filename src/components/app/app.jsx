@@ -5,7 +5,7 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import styles from './app.module.css';
 import { API_GET_DATA } from "../../utils/constants";
 import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ ingredient-details";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 
 const App = () => {
@@ -44,6 +44,24 @@ const App = () => {
   const closeOrderModal = () => {
     setOrderVisible(false);
   };
+  
+  useEffect(() => {
+    const close = (e) => {
+      if(e.keyCode === 27){
+        if(ingredientVisible) {
+          setIngredientVisible(false)
+        }
+        else if(orderVisible) {
+          setOrderVisible(false);
+        }
+      }
+    }
+    
+    window.addEventListener('keydown', close);
+    
+    return () => window.removeEventListener('keydown', close);
+    
+  },[ingredientVisible, orderVisible]);
   
   return (
     <div className={styles.app}>
