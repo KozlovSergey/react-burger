@@ -11,6 +11,7 @@ const BurgerIngredients = (props) => {
   let buns = data.filter(item => item.type === 'bun');
   let sauces = data.filter(item => item.type === 'sauce');
   let mains = data.filter(item => item.type === 'main');
+  
   return (
     <section className={styles.root}>
       <EmptySpace height="X10"/>
@@ -26,7 +27,7 @@ const BurgerIngredients = (props) => {
         </h2>
         <div className={styles.burger_ingredients_wrapper}>
           {buns.map(item => (
-            <BurgerIngredientItem itemData={item} key={item._id}/>
+            <BurgerIngredientItem itemData={item} key={item._id} openModal={props.openModal}/>
           ))}
         </div>
         <h2 className="text text_type_main-medium">
@@ -34,7 +35,7 @@ const BurgerIngredients = (props) => {
         </h2>
         <div className={styles.burger_ingredients_wrapper}>
           {sauces.map(item => (
-            <BurgerIngredientItem itemData={item} key={item._id}/>
+            <BurgerIngredientItem itemData={item} key={item._id} openModal={props.openModal}/>
           ))}
         </div>
         <h2 className="text text_type_main-medium">
@@ -42,7 +43,7 @@ const BurgerIngredients = (props) => {
         </h2>
         <div className={styles.burger_ingredients_wrapper}>
           {mains.map(item => (
-            <BurgerIngredientItem itemData={item} key={item._id}/>
+            <BurgerIngredientItem itemData={item} key={item._id} openModal={props.openModal}/>
           ))}
         </div>
       </div>
