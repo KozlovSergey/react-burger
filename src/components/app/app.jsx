@@ -44,7 +44,7 @@ const App = () => {
         {ingredientVisible &&
         (
           <Modal onClick={closeIngredientModal} header="Детали ингредиента">
-            {/*<IngredientDetails currentIngredient={currentIngredient}/>*/}
+            <IngredientDetails currentIngredient={currentIngredient}/>
           </Modal>
         )
         }
