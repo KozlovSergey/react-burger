@@ -67,7 +67,7 @@ class BurgerConstructor extends React.Component {
 }
 
 BurgerConstructor.propTypes = {
-  constructorElements: ingredientType.isRequired
+  data: ingredientType.isRequired
 };
 
 export default BurgerConstructor;
