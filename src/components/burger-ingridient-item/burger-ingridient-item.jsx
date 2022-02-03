@@ -2,6 +2,7 @@ import React from 'react';
 import EmptySpace from "../empty-space/empty-space";
 import styles from './burger-ingridient-item.module.css';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import ingredientType from "../../utils/ingridient.type";
 
 const BurgerIngredientItem = (props) => {
   const { image, name, price } = props.itemData;
@@ -22,5 +23,9 @@ const BurgerIngredientItem = (props) => {
     </div>
   )
 }
+
+BurgerIngredientItem.propTypes = {
+  itemData: ingredientType.isRequired
+};
 
 export default BurgerIngredientItem;
