@@ -22,8 +22,8 @@ const BurgerConstructor = (props) => {
             />
           </div>
           <div className={styles.wrapper}>
-            {data.slice(1, -1).map((item) => (
-              <div className={`${styles.item} pr-2`} key={item._id}>
+            {data.slice(1, -1).map((item, index) => (
+              <div className={`${styles.item} pr-2`} key={index}>
                 <DragIcon type="primary"/>
                 <ConstructorElement
                   type={item.type}
