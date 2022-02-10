@@ -8,19 +8,20 @@ import { IngredientsContext } from "../../services/ingredients-context";
 
 const BurgerConstructor = (props) => {
   const { ingredients } = useContext(IngredientsContext);
+  const bunIngredient = ingredients && ingredients.find(ingredient => ingredient.type === 'bun');
     
     return (
       <section className={styles.root}>
         <div style={{display: 'flex', flexDirection: 'column'}}>
           <EmptySpace height="X25"/>
           <div className={`${styles.item} pr-4`} style={{justifyContent: 'flex-end'}}>
-            <ConstructorElement
+            {bunIngredient && <ConstructorElement
               type="top"
               isLocked={true}
-              text="Краторная булка N-200i (верх)"
-              price={200}
-              thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
-            />
+              text={`${bunIngredient.name} (верх)`}
+              price={bunIngredient.price}
+              thumbnail={bunIngredient.image}
+            />}
           </div>
           <div className={styles.wrapper}>
             {ingredients.slice(1, -1).map((item, index) => (
@@ -40,9 +41,9 @@ const BurgerConstructor = (props) => {
             <ConstructorElement
               type="bottom"
               isLocked={true}
-              text="Краторная булка N-200i (низ)"
-              price={200}
-              thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
+              text={`${bunIngredient.name} (низ)`}
+              price={bunIngredient.price}
+              thumbnail={bunIngredient.image}
             />
           </div>
         </div>
