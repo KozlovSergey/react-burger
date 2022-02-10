@@ -1,12 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './burger-constructor.module.css';
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import EmptySpace from "../empty-space/empty-space";
+import ingredientType from "../../utils/ingridient.type";
 
-class BurgerConstructor extends React.Component {
-  
-  render(props) {
-    const {data} = this.props;
+const BurgerConstructor = (props) => {
+    const {data} = props;
     
     return (
       <section className={styles.root}>
@@ -22,12 +22,12 @@ class BurgerConstructor extends React.Component {
             />
           </div>
           <div className={styles.wrapper}>
-            {data.slice(1, -1).map((item) => (
-              <div className={`${styles.item} pr-2`} key={item._id}>
+            {data.slice(1, -1).map((item, index) => (
+              <div className={`${styles.item} pr-2`} key={index}>
                 <DragIcon type="primary"/>
                 <ConstructorElement
                   type={item.type}
-                  isLocked={true}
+                  isLocked={false}
                   text={item.name}
                   price={item.price}
                   thumbnail={item.image}
@@ -54,14 +54,17 @@ class BurgerConstructor extends React.Component {
             </span>
           </div>
           <div className={styles.button_wrapper}>
-            <Button type="primary" size="large">
+            <Button type="primary" size="large" onClick={() => props.openModal()}>
               Оформить заказ
             </Button>
           </div>
         </div>
       </section>
     )
-  }
 }
+
+BurgerConstructor.propTypes = {
+  data: PropTypes.arrayOf(ingredientType.isRequired)
+};
 
 export default BurgerConstructor;
