@@ -10,7 +10,6 @@ import OrderDetails from "../order-details/order-details";
 import { IngredientsContext } from "../../services/ingredients-context";
 
 const App = () => {
-  const [data, setData] = React.useState([]);
   const [ingredients, setIngredients] = React.useState([]);
   const [ingredientVisible, setIngredientVisible] = React.useState(false);
   const [currentIngredient, setCurrentIngredient] = React.useState({});
