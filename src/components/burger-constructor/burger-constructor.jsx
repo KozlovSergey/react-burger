@@ -8,7 +8,8 @@ import { IngredientsContext } from "../../services/ingredients-context";
 
 const BurgerConstructor = (props) => {
   const { ingredients } = useContext(IngredientsContext);
-  const bunIngredient = ingredients && ingredients.find(ingredient => ingredient.type === 'bun');
+  const bunIngredient = ingredients.find(ingredient => ingredient.type === 'bun');
+  const ingredientsWithoutBuns = ingredients.filter(ingredient => ingredient.type !== 'bun');
     
     return (
       <section className={styles.root}>
@@ -24,7 +25,7 @@ const BurgerConstructor = (props) => {
             />}
           </div>
           <div className={styles.wrapper}>
-            {ingredients.slice(1, -1).map((item, index) => (
+            {ingredientsWithoutBuns.map((item, index) => (
               <div className={`${styles.item} pr-2`} key={index}>
                 <DragIcon type="primary"/>
                 <ConstructorElement
