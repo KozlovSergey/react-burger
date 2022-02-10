@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 import styles from './burger-constructor.module.css';
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import EmptySpace from "../empty-space/empty-space";
@@ -20,12 +20,18 @@ const totalPriceReducer = (state, action) => {
 }
 
 const BurgerConstructor = (props) => {
+  const { makeOrder } = props;
   const {ingredients} = useContext(IngredientsContext);
   const bunIngredient = ingredients.find(ingredient => ingredient.type === 'bun');
   const ingredientsWithoutBuns = ingredients.filter(ingredient => ingredient.type !== 'bun');
   const [totalPriceState, totalPriceDispatcher] = React.useReducer(totalPriceReducer, totalPriceInitialState, undefined);
   const totalPrice = bunIngredient && ingredientsWithoutBuns.map((ingredient) => ingredient.price)
   .reduce((sum, price) => sum + price, 0) + bunIngredient.price * 2;
+  
+  const clickOrder = () => {
+    const burgerIngredients = [bunIngredient, ...ingredientsWithoutBuns].map(((item) => item._id));
+    makeOrder(burgerIngredients);
+  }
   
   React.useEffect(() => {
     if (ingredients) {
@@ -81,7 +87,7 @@ const BurgerConstructor = (props) => {
             </span>
         </div>
         <div className={styles.button_wrapper}>
-          <Button type="primary" size="large" onClick={() => props.openModal()}>
+          <Button type="primary" size="large" onClick={clickOrder}>
             Оформить заказ
           </Button>
         </div>
@@ -91,7 +97,8 @@ const BurgerConstructor = (props) => {
 }
 
 BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientType.isRequired)
+  ingredients: PropTypes.arrayOf(ingredientType.isRequired),
+  makeOrder: PropTypes.func.isRequired
 };
 
 export default BurgerConstructor;

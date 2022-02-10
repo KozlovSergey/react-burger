@@ -3,7 +3,7 @@ import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import styles from './app.module.css';
-import { API_GET_DATA } from "../../utils/constants";
+import { API_GET_DATA, API_ORDERS } from "../../utils/constants";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
@@ -14,6 +14,7 @@ const App = () => {
   const [ingredientVisible, setIngredientVisible] = React.useState(false);
   const [currentIngredient, setCurrentIngredient] = React.useState({});
   const [orderVisible, setOrderVisible] = React.useState(false);
+  const [orderNumber, setOrderNumber] = React.useState(null);
   
   useEffect(() => {
     fetch(API_GET_DATA)
@@ -46,8 +47,29 @@ const App = () => {
   };
   
   const closeOrderModal = () => {
+    setOrderNumber(null);
     setOrderVisible(false);
   };
+  
+  const createOrder = (data) => {
+    fetch(`${API_ORDERS}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ ingredients: data }),
+    })
+    .then(result => {
+      if (result.ok) {
+        return result.json();
+      }
+      return Promise.reject(`Ошибка ${result.status}`);
+    })
+    .then((res) => {
+      setOrderNumber(res.order.number);
+    })
+    .catch((err) => console.log(err));
+  }
   
   useEffect(() => {
     const close = (e) => {
@@ -74,16 +96,16 @@ const App = () => {
         <main className={styles.main}>
           <IngredientsContext.Provider value={{ ingredients, setIngredients }}>
             <BurgerIngredients openModal={openIngredientModal}/>
-            <BurgerConstructor openModal={openOrderModal}/>
+            <BurgerConstructor makeOrder={createOrder} openModal={openOrderModal}/>
           </IngredientsContext.Provider>
           {ingredientVisible && (
             <Modal onClick={closeIngredientModal} header="Детали ингредиента">
               <IngredientDetails currentIngredient={currentIngredient}/>
             </Modal>
           )}
-          { orderVisible && (
+          { orderNumber && (
             <Modal onClick={closeOrderModal} header="">
-              <OrderDetails />
+              <OrderDetails orderNumber={orderNumber} />
             </Modal>
           )}
         </main>
