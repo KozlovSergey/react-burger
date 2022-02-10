@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import EmptySpace from "../empty-space/empty-space";
 import BurgerIngredientsTabs from "../burger-ingridients-tabs/burger-ingridients-tabs";
 import BurgerIngredientItem from "../burger-ingridient-item/burger-ingridient-item";
 import styles from "./burger-ingredients.module.css";
 import ingredientType from "../../utils/ingridient.type";
+import { IngredientsContext } from "../../services/ingredients-context";
 
 const BurgerIngredients = (props) => {
-  const {data} = props;
-  let buns = data.filter(item => item.type === 'bun');
-  let sauces = data.filter(item => item.type === 'sauce');
-  let mains = data.filter(item => item.type === 'main');
+  const { ingredients } = useContext(IngredientsContext);
+  let buns = ingredients.filter(item => item.type === 'bun');
+  let sauces = ingredients.filter(item => item.type === 'sauce');
+  let mains = ingredients.filter(item => item.type === 'main');
   
   return (
     <section className={styles.root}>
@@ -52,7 +53,7 @@ const BurgerIngredients = (props) => {
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientType.isRequired)
+  ingredients: PropTypes.arrayOf(ingredientType.isRequired)
 };
 
 export default BurgerIngredients;

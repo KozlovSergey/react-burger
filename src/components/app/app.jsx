@@ -7,9 +7,11 @@ import { API_GET_DATA } from "../../utils/constants";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
+import { IngredientsContext } from "../../services/ingredients-context";
 
 const App = () => {
   const [data, setData] = React.useState([]);
+  const [ingredients, setIngredients] = React.useState([]);
   const [ingredientVisible, setIngredientVisible] = React.useState(false);
   const [currentIngredient, setCurrentIngredient] = React.useState({});
   const [orderVisible, setOrderVisible] = React.useState(false);
@@ -22,7 +24,10 @@ const App = () => {
       }
       return Promise.reject(`Ошибка ${result.status}`);
     })
-    .then(data => setData(data.data))
+    .then(res => {
+      setIngredients(res.data);
+      
+    })
     .catch(e => {
       console.log('Error: ' + e.message);
     });
@@ -66,20 +71,24 @@ const App = () => {
   return (
     <div className={styles.app}>
       <AppHeader/>
-      <main className={styles.main}>
-        <BurgerIngredients data={data} openModal={openIngredientModal}/>
-        <BurgerConstructor data={data} openModal={openOrderModal}/>
-        {ingredientVisible && (
-          <Modal onClick={closeIngredientModal} header="Детали ингредиента">
-            <IngredientDetails currentIngredient={currentIngredient}/>
-          </Modal>
-        )}
-        { orderVisible && (
-          <Modal onClick={closeOrderModal} header="">
-            <OrderDetails />
-          </Modal>
-        )}
-      </main>
+      { ingredients.length > 0 && (
+        <main className={styles.main}>
+          <IngredientsContext.Provider value={{ ingredients, setIngredients }}>
+            <BurgerIngredients openModal={openIngredientModal}/>
+            <BurgerConstructor openModal={openOrderModal}/>
+          </IngredientsContext.Provider>
+          {ingredientVisible && (
+            <Modal onClick={closeIngredientModal} header="Детали ингредиента">
+              <IngredientDetails currentIngredient={currentIngredient}/>
+            </Modal>
+          )}
+          { orderVisible && (
+            <Modal onClick={closeOrderModal} header="">
+              <OrderDetails />
+            </Modal>
+          )}
+        </main>
+      )}
     </div>
   );
 }

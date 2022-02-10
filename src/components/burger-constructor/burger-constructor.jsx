@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styles from './burger-constructor.module.css';
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import EmptySpace from "../empty-space/empty-space";
 import ingredientType from "../../utils/ingridient.type";
+import { IngredientsContext } from "../../services/ingredients-context";
 
 const BurgerConstructor = (props) => {
-    const {data} = props;
+  const { ingredients } = useContext(IngredientsContext);
     
     return (
       <section className={styles.root}>
@@ -22,7 +23,7 @@ const BurgerConstructor = (props) => {
             />
           </div>
           <div className={styles.wrapper}>
-            {data.slice(1, -1).map((item, index) => (
+            {ingredients.slice(1, -1).map((item, index) => (
               <div className={`${styles.item} pr-2`} key={index}>
                 <DragIcon type="primary"/>
                 <ConstructorElement
@@ -64,7 +65,7 @@ const BurgerConstructor = (props) => {
 }
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientType.isRequired)
+  ingredients: PropTypes.arrayOf(ingredientType.isRequired)
 };
 
 export default BurgerConstructor;
