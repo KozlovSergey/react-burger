@@ -9,9 +9,9 @@ import { IngredientsContext } from "../../services/ingredients-context";
 
 const BurgerIngredients = (props) => {
   const { ingredients } = useContext(IngredientsContext);
-  let buns = ingredients.filter(item => item.type === 'bun');
-  let sauces = ingredients.filter(item => item.type === 'sauce');
-  let mains = ingredients.filter(item => item.type === 'main');
+  const buns = ingredients.filter(item => item.type === 'bun');
+  const sauces = ingredients.filter(item => item.type === 'sauce');
+  const mains = ingredients.filter(item => item.type === 'main');
   
   return (
     <section className={styles.root}>
