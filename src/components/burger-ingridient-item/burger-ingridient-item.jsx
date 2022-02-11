@@ -19,7 +19,7 @@ const BurgerIngredientItem = (props) => {
         <span className="text text_type_digits-default"><CurrencyIcon type="primary" /></span>
       </div>
       <EmptySpace height="X1"/>
-      <div className="name">{name}</div>
+      <div className="name text text_type_main-default">{name}</div>
     </div>
   )
 }
