@@ -97,7 +97,6 @@ const BurgerConstructor = (props) => {
 }
 
 BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientType.isRequired),
   makeOrder: PropTypes.func.isRequired
 };
 
