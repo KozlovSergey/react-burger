@@ -10,11 +10,11 @@ const modalRoot = document.getElementById("modals");
 const Modal = (props) => {
   return ReactDOM.createPortal((
       <>
-        <ModalOverlay onClick={props.onClick}/>
+        <ModalOverlay onClick={props.onClose}/>
         <div className={`${styles.root} pt-10 pr-10 pb-15 pl-10`} onClick={e => e.stopPropagation()}>
           <div className={styles.header}>
             {props.header && <h2 className="text_type_main-large">{props.header}</h2>}
-            <button className={styles.closeButton} onClick={props.onClick}>
+            <button className={styles.closeButton} onClick={props.onClose}>
               <CloseIcon type="primary"/>
             </button>
           </div>
@@ -28,7 +28,7 @@ const Modal = (props) => {
 Modal.propTypes = {
   header: PropTypes.string,
   children: PropTypes.node.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired
 }
 
 export default Modal;

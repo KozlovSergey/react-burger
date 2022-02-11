@@ -99,7 +99,7 @@ const App = () => {
             <BurgerConstructor makeOrder={createOrder} openModal={openOrderModal}/>
           </IngredientsContext.Provider>
           {ingredientVisible && (
-            <Modal onClick={closeIngredientModal} header="Детали ингредиента">
+            <Modal onClose={closeIngredientModal} header="Детали ингредиента">
               <IngredientDetails currentIngredient={currentIngredient}/>
             </Modal>
           )}
