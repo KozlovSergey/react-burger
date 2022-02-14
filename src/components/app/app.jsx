@@ -3,16 +3,18 @@ import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import styles from './app.module.css';
-import { API_GET_DATA } from "../../utils/constants";
+import { API_GET_DATA, API_ORDERS } from "../../utils/constants";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
+import { IngredientsContext } from "../../services/ingredients-context";
 
 const App = () => {
-  const [data, setData] = React.useState([]);
+  const [ingredients, setIngredients] = React.useState([]);
   const [ingredientVisible, setIngredientVisible] = React.useState(false);
   const [currentIngredient, setCurrentIngredient] = React.useState({});
   const [orderVisible, setOrderVisible] = React.useState(false);
+  const [orderNumber, setOrderNumber] = React.useState(null);
   
   useEffect(() => {
     fetch(API_GET_DATA)
@@ -22,7 +24,10 @@ const App = () => {
       }
       return Promise.reject(`Ошибка ${result.status}`);
     })
-    .then(data => setData(data.data))
+    .then(res => {
+      setIngredients(res.data);
+      
+    })
     .catch(e => {
       console.log('Error: ' + e.message);
     });
@@ -42,8 +47,29 @@ const App = () => {
   };
   
   const closeOrderModal = () => {
+    setOrderNumber(null);
     setOrderVisible(false);
   };
+  
+  const createOrder = (data) => {
+    fetch(`${API_ORDERS}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ ingredients: data }),
+    })
+    .then(result => {
+      if (result.ok) {
+        return result.json();
+      }
+      return Promise.reject(`Ошибка ${result.status}`);
+    })
+    .then((res) => {
+      setOrderNumber(res.order.number);
+    })
+    .catch((err) => console.log(err));
+  }
   
   useEffect(() => {
     const close = (e) => {
@@ -66,20 +92,24 @@ const App = () => {
   return (
     <div className={styles.app}>
       <AppHeader/>
-      <main className={styles.main}>
-        <BurgerIngredients data={data} openModal={openIngredientModal}/>
-        <BurgerConstructor data={data} openModal={openOrderModal}/>
-        {ingredientVisible && (
-          <Modal onClick={closeIngredientModal} header="Детали ингредиента">
-            <IngredientDetails currentIngredient={currentIngredient}/>
-          </Modal>
-        )}
-        { orderVisible && (
-          <Modal onClick={closeOrderModal} header="">
-            <OrderDetails />
-          </Modal>
-        )}
-      </main>
+      { ingredients.length > 0 && (
+        <main className={styles.main}>
+          <IngredientsContext.Provider value={{ ingredients, setIngredients }}>
+            <BurgerIngredients openModal={openIngredientModal}/>
+            <BurgerConstructor makeOrder={createOrder} openModal={openOrderModal}/>
+          </IngredientsContext.Provider>
+          {ingredientVisible && (
+            <Modal onClose={closeIngredientModal} header="Детали ингредиента">
+              <IngredientDetails currentIngredient={currentIngredient}/>
+            </Modal>
+          )}
+          { orderNumber && (
+            <Modal onClick={closeOrderModal} header="">
+              <OrderDetails orderNumber={orderNumber} />
+            </Modal>
+          )}
+        </main>
+      )}
     </div>
   );
 }
