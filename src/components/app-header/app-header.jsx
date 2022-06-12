@@ -1,26 +1,32 @@
-import React from 'react';
-import { BurgerIcon, ListIcon, Logo, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import NavLink from "../nav-link/nav-link";
-import styles from "./app-header.module.css";
-import EmptySpace from "../empty-space/empty-space";
+import appStyles from './app-header.module.css';
 
-const AppHeader = () => {
+import { 
+  BurgerIcon,
+  ListIcon,
+  Logo,
+  ProfileIcon
+} from '@ya.praktikum/react-developer-burger-ui-components';
+
+function AppHeader() {
   return (
-    <header>
-      <EmptySpace height="X4"/>
-      <nav className={styles.nav}>
-        <div className={`${styles.navItem}`}>
-          <NavLink title="Конструктор" icon={<BurgerIcon type="primary"/>}/>
-          <NavLink title="Лента заказов" icon={<ListIcon type="primary"/>}/>
-        </div>
-        <div className={styles.navItem}>
-          <Logo/>
-        </div>
-        <div className={styles.navItem}>
-          <NavLink title="Личный кабинет" icon={<ProfileIcon type="primary"/>}/>
-        </div>
+    <header className={`${appStyles.header} pt-4 pb-4`}>
+      <nav className={appStyles.nav}>
+        <a href="##" className={`${appStyles.button} pt-4 pr-5 pb-4 pl-5 mr-2`}>
+          <BurgerIcon type="primary" />
+          <span className={`${appStyles.button_text} ${appStyles.button_text_active} ml-2 text_type_main-default`}>Конструктор</span>
+        </a>
+        <a href="##" className={`${appStyles.button} pt-4 pr-5 pb-4 pl-5 mr-2`}>
+          <ListIcon type="secondary" />
+          <span className={`${appStyles.button_text} ml-2 text_type_main-default`}>Лента заказов</span>
+        </a>
+        <a href="##" className={appStyles.logo}>
+          <Logo />
+        </a>
+        <a href="##" className={`${appStyles.button} pt-4 pr-5 pb-4 pl-5 mr-2`}>
+          <ProfileIcon type="secondary" />
+          <span className={`${appStyles.button_text} ml-2 text_type_main-default`}>Личный кабинет</span>
+        </a>
       </nav>
-      <EmptySpace height="X4"/>
     </header>
   );
 }
