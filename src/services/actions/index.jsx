@@ -1,4 +1,5 @@
 import { API_GET_DATA, API_ORDERS } from "../../utils/constants";
+import { checkResponse } from "../../utils/checkResponse";
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
@@ -14,16 +15,12 @@ export const GET_ORDER_NUMBER_FAILED = 'GET_ORDER_NUMBER_FAILED';
 export const REPLACE_INGREDIENTS = 'REPLACE_INGREDIENTS';
 
 export function getIngredients() {
-  return function(dispatch) {
+  return function (dispatch) {
     dispatch({
       type: GET_INGREDIENTS_REQUEST,
     })
-    fetch(API_GET_DATA).then(res => {
-      if (res.ok) {
-          return res.json();
-      }
-      return Promise.reject(`Ошибка ${res.status}`);
-    })
+    fetch(API_GET_DATA)
+    .then(checkResponse)
     .then(data => dispatch({
       type: GET_INGREDIENTS_SUCCESS,
       data: data.data
@@ -38,15 +35,15 @@ export function getIngredients() {
 }
 
 export function getOrderNumber(ingredients) {
-  return function(dispatch) {
+  return function (dispatch) {
     dispatch({
       type: GET_ORDER_NUMBER_REQUEST,
     });
-
+    
     const data = {
       "ingredients": ingredients.map(item => item._id)
     };
-
+    
     fetch(API_ORDERS, {
       method: 'POST',
       headers: {
@@ -54,12 +51,7 @@ export function getOrderNumber(ingredients) {
       },
       body: JSON.stringify(data),
     })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка ${res.status}`);
-    })
+    .then(checkResponse)
     .then(data => {
       dispatch({
         type: GET_ORDER_NUMBER_SUCCESS,
@@ -76,7 +68,7 @@ export function getOrderNumber(ingredients) {
 }
 
 export const replaceItems = (dragIndex, hoverIndex) => {
-  return function(dispatch) {
+  return function (dispatch) {
     dispatch({
       type: REPLACE_INGREDIENTS,
       payload: {
