@@ -14,6 +14,7 @@ import {
   getOrderNumber
 } from '../../services/actions';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
+import { v4 as uuidv4 } from 'uuid';
 
 function BurgerConstructor(props) {
   const constructorIngredients = useSelector(store => store.burger.constructorIngredients);
@@ -26,6 +27,7 @@ function BurgerConstructor(props) {
   const [, dropTarget] = useDrop({
     accept: "ingredient",
     drop(item) {
+      item.uuid = uuidv4();
       if(item.type === 'bun') { 
         for(let i = 0; i < 2; i++) {
           if(burgerBun.length > 0) {
@@ -69,7 +71,7 @@ function BurgerConstructor(props) {
         <div className={`${styles.scrollable} mb-4 pr-4`}>
           {
             constructorIngredients.map((item,index) => item.type !== 'bun' && (
-                <BurgerConstructorItem item={item} key={index} index={index}/>
+                <BurgerConstructorItem item={item} key={item.uuid} index={index}/>
               )
             )
           }

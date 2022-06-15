@@ -23,23 +23,6 @@ function App() {
   const dispatch = useDispatch();
   
   useEffect(() => {
-    const close = (e) => {
-      if (e.key === 'Escape') {
-        if (ingredientVisible) {
-          setIngredientVisible(false)
-        } else if (orderVisible) {
-          setOrderVisible(false);
-        }
-      }
-    }
-    
-    window.addEventListener('keydown', close);
-    
-    return () => window.removeEventListener('keydown', close);
-    
-  }, [ingredientVisible, orderVisible]);
-  
-  useEffect(() => {
     dispatch(getIngredients());
   }, [dispatch]);
   
@@ -82,13 +65,13 @@ function App() {
         </Modal>
       )
       }
-      {ingredientVisible &&
-      (
-        <Modal onClick={closeIngredientModal} header="Детали ингредиента">
+      {/*{ingredientVisible &&*/}
+      {/*(*/}
+        <Modal isVisible={ingredientVisible} onClick={closeIngredientModal} header="Детали ингредиента">
           <IngredientDetails currentIngredient={currentIngredient}/>
         </Modal>
-      )
-      }
+      {/*)*/}
+      {/*}*/}
     </div>
   );
 }

@@ -36,7 +36,7 @@ function BurgerIngredientsItem(props) {
 }
 
 BurgerIngredientsItem.propTypes = {
-  itemData: ingredientType.isRequired
+  itemData: ingredientType
 };
 
 export default BurgerIngredientsItem;

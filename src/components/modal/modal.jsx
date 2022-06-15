@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
 import styles from './modal.module.css';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 
 function Modal(props) {
+  useEffect(() => {
+    const close = (e) => {
+      if (e.key === 'Escape') {
+        props.onClick();
+      }
+    }
+    
+    window.addEventListener('keydown', close);
+    
+    return () => window.removeEventListener('keydown', close);
+    
+  }, [props.isVisible]);
+  
     return (
+      props.isVisible && (
       <ModalOverlay onClick={props.onClick}>
         <div className={`${styles.root} pt-10 pr-10 pb-15 pl-10`} onClick={e => e.stopPropagation()}>
           <div className={styles.header}>
@@ -17,8 +31,9 @@ function Modal(props) {
             {props.children}
         </div>
       </ModalOverlay>
+      )
   );
-};
+}
 
 Modal.propTypes = {
   header: PropTypes.string,
