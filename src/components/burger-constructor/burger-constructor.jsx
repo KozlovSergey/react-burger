@@ -1,103 +1,119 @@
-import React, { useContext } from 'react';
-import PropTypes, { func } from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { 
+  ConstructorElement, 
+  Button, 
+  CurrencyIcon
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import { useDrop } from "react-dnd";
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './burger-constructor.module.css';
-import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import EmptySpace from "../empty-space/empty-space";
-import ingredientType from "../../utils/ingridient.type";
-import { IngredientsContext } from "../../services/ingredients-context";
+import { 
+  ADD_INGREDIENT_TO_CONSTRUCTOR, 
+  DELETE_INGREDIENT_FROM_CONSTRUCTOR,
+  getOrderNumber
+} from '../../services/actions';
+import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
+import { v4 as uuidv4 } from 'uuid';
 
-const totalPriceInitialState = { totalPrice: 0 };
+function BurgerConstructor(props) {
+  const constructorIngredients = useSelector(store => store.burger.constructorIngredients);
+  let total = useSelector(store => store.burger.constructorIngredients).reduce((accumulator, { price }) =>  { 
+    return  accumulator + parseInt(price)
+  }, 0);
+  const dispatch = useDispatch();
+  const burgerBun = useSelector(store => store.burger.constructorIngredients).filter(item => item.type === 'bun');
 
-const totalPriceReducer = (state, action) => {
-  switch (action.type) {
-    case "set":
-      return { totalPrice: action.payload };
-    case "reset":
-      return totalPriceInitialState;
-    default:
-      throw new Error(`Wrong type of action: ${action.type}`);
-  }
-}
+  const [, dropTarget] = useDrop({
+    accept: "ingredient",
+    drop(item) {
+      item = {...item, uuid: uuidv4()}
+      if(item.type === 'bun') { 
+        for(let i = 0; i < 2; i++) {
+          if(burgerBun.length > 0) {
+            let id = burgerBun[0]._id;  
+            dispatch({
+              type: DELETE_INGREDIENT_FROM_CONSTRUCTOR,
+              id: id
+            });
+          }
+          dispatch({
+            type: ADD_INGREDIENT_TO_CONSTRUCTOR,
+            draggedIngredient: item
+          });
+        }
+      }
+      else {
+        dispatch({
+          type: ADD_INGREDIENT_TO_CONSTRUCTOR,
+          draggedIngredient: item
+        });
+      }
+    },
+  });
 
-const BurgerConstructor = (props) => {
-  const { makeOrder } = props;
-  const {ingredients} = useContext(IngredientsContext);
-  const bunIngredient = ingredients.find(ingredient => ingredient.type === 'bun');
-  const ingredientsWithoutBuns = ingredients.filter(ingredient => ingredient.type !== 'bun');
-  const [totalPriceState, totalPriceDispatcher] = React.useReducer(totalPriceReducer, totalPriceInitialState, undefined);
-  const totalPrice = bunIngredient && ingredientsWithoutBuns.map((ingredient) => ingredient.price)
-  .reduce((sum, price) => sum + price, 0) + bunIngredient.price * 2;
-  
-  const clickOrder = () => {
-    const burgerIngredients = [bunIngredient, ...ingredientsWithoutBuns].map(((item) => item._id));
-    makeOrder(burgerIngredients);
-  }
-  
-  React.useEffect(() => {
-    if (ingredients) {
-      totalPriceDispatcher({ type: "set", payload: totalPrice });
-    } else {
-      totalPriceDispatcher({ type: "reset" });
-    }
-  }, [totalPrice, ingredients])
-  
   return (
     <section className={styles.root}>
-      <div style={{display: 'flex', flexDirection: 'column'}}>
-        <EmptySpace height="X25"/>
-        <div className={`${styles.item} pr-4`} style={{justifyContent: 'flex-end'}}>
-          {bunIngredient && <ConstructorElement
-            type="top"
-            isLocked={true}
-            text={`${bunIngredient.name} (верх)`}
-            price={bunIngredient.price}
-            thumbnail={bunIngredient.image}
-          />}
-        </div>
-        <div className={styles.wrapper}>
-          {ingredientsWithoutBuns.map((item, index) => (
-            <div className={`${styles.item} pr-2`} key={index}>
-              <DragIcon type="primary"/>
+      <div className={`${styles.container} `} ref={dropTarget}>
+        {
+          burgerBun.length > 0 && (
+            <div className={`${styles.item} mb-4 pr-8`}>
               <ConstructorElement
-                type={item.type}
-                isLocked={false}
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image}
+                type="top"
+                isLocked={true}
+                text={burgerBun[0].name + ' (верх)'}
+                price={burgerBun[0].price}
+                thumbnail={burgerBun[0].image}
               />
             </div>
-          ))}
+          )
+        }
+        <div className={`${styles.scrollable} mb-4 pr-4`}>
+          {
+            constructorIngredients.map((item,index) => item.type !== 'bun' && (
+                <BurgerConstructorItem item={item} key={item.uuid} index={index}/>
+              )
+            )
+          }
         </div>
-        <div className={`${styles.item} pr-4`} style={{justifyContent: 'flex-end'}}>
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text={`${bunIngredient.name} (низ)`}
-            price={bunIngredient.price}
-            thumbnail={bunIngredient.image}
-          />
-        </div>
+        {
+          burgerBun.length > 0 && (
+            <div className={`${styles.item} mb-4 pr-8`}>
+              <ConstructorElement
+                type="bottom"
+                isLocked={true}
+                text={burgerBun[0].name + ' (низ)'}
+                price={burgerBun[0].price}
+                thumbnail={burgerBun[0].image}
+              />
+            </div>
+          )
+        }
       </div>
-      <EmptySpace height="X10"/>
-      <div className={styles.footer}>
-        <div className={styles.price}>
-          <span className={`${styles.price_value} text text_type_digits-medium`}>{totalPriceState.totalPrice}</span>
-          <span className={styles.price_currency}>
-              <CurrencyIcon type="primary"/>
-            </span>
-        </div>
-        <div className={styles.button_wrapper}>
-          <Button type="primary" size="large" onClick={clickOrder}>
-            Оформить заказ
-          </Button>
-        </div>
+      <div className={`${styles.total} mt-10 pr-8`}>
+        <span className={`${styles.totalSum} mr-10 text_type_digits-medium`}>
+          {total}
+          <CurrencyIcon type="primary" />
+        </span>
+        <Button 
+          type="primary" 
+          size="large" 
+          onClick={() => { 
+            if(burgerBun && constructorIngredients.length > 2) {
+              dispatch(getOrderNumber(constructorIngredients)); 
+              props.openModal();
+            }
+          }}
+        >
+          Оформить заказ
+        </Button>
       </div>
     </section>
-  )
+  );
 }
 
 BurgerConstructor.propTypes = {
-  makeOrder: PropTypes.func.isRequired
-};
+  openModal: PropTypes.func.isRequired,
+}
 
 export default BurgerConstructor;
