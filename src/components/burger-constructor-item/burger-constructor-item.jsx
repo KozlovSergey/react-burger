@@ -91,7 +91,7 @@ function BurgerConstructorItem(props) {
 }
 
 BurgerConstructorItem.propTypes = {
-  itemData: ingredientType.isRequired
+  itemData: ingredientType
 };
 
 export default BurgerConstructorItem;

@@ -27,7 +27,7 @@ function BurgerConstructor(props) {
   const [, dropTarget] = useDrop({
     accept: "ingredient",
     drop(item) {
-      item.uuid = uuidv4();
+      item = {...item, uuid: uuidv4()}
       if(item.type === 'bun') { 
         for(let i = 0; i < 2; i++) {
           if(burgerBun.length > 0) {

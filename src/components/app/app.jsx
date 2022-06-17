@@ -58,13 +58,13 @@ function App() {
           <BurgerConstructor openModal={openOrderModal}/>
         </main>
       </DndProvider>
-      {orderVisible &&
-      (
-        <Modal onClick={closeOrderModal} header="">
+      {/*{orderVisible &&*/}
+      {/*(*/}
+        <Modal isVisible={orderVisible} onClick={closeOrderModal} header="">
           <OrderDetails/>
         </Modal>
-      )
-      }
+      {/*)*/}
+      {/*}*/}
       {/*{ingredientVisible &&*/}
       {/*(*/}
         <Modal isVisible={ingredientVisible} onClick={closeIngredientModal} header="Детали ингредиента">
