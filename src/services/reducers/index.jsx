@@ -9,6 +9,7 @@ import {
   GET_ORDER_NUMBER_REQUEST,
   GET_ORDER_NUMBER_SUCCESS,
   GET_ORDER_NUMBER_FAILED,
+  CLEAR_ORDER_NUMBER,
   REPLACE_INGREDIENTS
 } from '../actions';
 import { v4 as uuidv4 } from 'uuid';
@@ -16,7 +17,6 @@ import { v4 as uuidv4 } from 'uuid';
 const initialState = {
   ingredients: [],
   constructorIngredients: [],
-  currentIngredient: {},
   order: {
     orderNumber: 0
   }
@@ -86,6 +86,14 @@ export const getIngredientsReducer = (state = initialState, action) => {
       }
     }
     case GET_ORDER_NUMBER_FAILED: {
+      return {
+        ...state,
+        order: {
+          orderNumber: 0
+        }
+      }
+    }
+    case CLEAR_ORDER_NUMBER: {
       return {
         ...state,
         order: {

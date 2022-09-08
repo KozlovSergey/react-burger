@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
-  ConstructorElement, 
-  DragIcon 
+  ConstructorElement,
+  DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch } from 'react-redux';
 import { useDrop, useDrag } from 'react-dnd';
-import {  
+import {
   DELETE_INGREDIENT_FROM_CONSTRUCTOR,
   replaceItems
 } from '../../services/actions';
@@ -22,7 +23,7 @@ function BurgerConstructorItem(props) {
       type: DELETE_INGREDIENT_FROM_CONSTRUCTOR,
       id: item._id
     })
-  }; 
+  };
 
   const ref = React.useRef(null);
 
@@ -32,7 +33,7 @@ function BurgerConstructorItem(props) {
       if (!ref.current) {
         return;
       }
-      
+
       const dragIndex = item.index;
       const hoverIndex = props.index;
 
@@ -50,7 +51,7 @@ function BurgerConstructorItem(props) {
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
- 
+
       dispatch(replaceItems(dragIndex, hoverIndex));
 
       item.index = hoverIndex;
@@ -72,8 +73,8 @@ function BurgerConstructorItem(props) {
   const opacity = isDragging ? 0 : 1;
 
   return (
-    <div 
-      className={`${styles.item} mb-4`} 
+    <div
+      className={`${styles.item} mb-4`}
       style={{ opacity }}
       ref={ref}
       draggable
@@ -91,7 +92,8 @@ function BurgerConstructorItem(props) {
 }
 
 BurgerConstructorItem.propTypes = {
-  itemData: ingredientType
+  item: ingredientType.isRequired,
+  index: PropTypes.number.isRequired
 };
 
 export default BurgerConstructorItem;
