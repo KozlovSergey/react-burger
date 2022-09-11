@@ -16,10 +16,9 @@ function Modal(props) {
     
     return () => window.removeEventListener('keydown', close);
     
-  }, [props.isVisible]);
+  }, []);
   
     return (
-      props.isVisible && (
       <ModalOverlay onClick={props.onClick}>
         <div className={`${styles.root} pt-10 pr-10 pb-15 pl-10`} onClick={e => e.stopPropagation()}>
           <div className={styles.header}>
@@ -31,7 +30,6 @@ function Modal(props) {
             {props.children}
         </div>
       </ModalOverlay>
-      )
   );
 }
 
