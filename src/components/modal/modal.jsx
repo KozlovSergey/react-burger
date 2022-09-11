@@ -16,7 +16,7 @@ function Modal(props) {
     
     return () => window.removeEventListener('keydown', close);
     
-  }, []);
+  });
   
     return (
       <ModalOverlay onClick={props.onClick}>

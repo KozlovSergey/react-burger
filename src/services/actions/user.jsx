@@ -3,18 +3,13 @@ import {
   setCookie,
   deleteCookie
 } from '../cookies';
+import {baseUrl} from "../../utils/constants";
+import {checkResponse} from "../../utils/checkResponse";
 
 export const IS_REQUESTING = 'IS_REQUESTING';
 export const IS_FAILED = 'IS_FAILED';
 export const IS_SUCCESSFUL = 'IS_SUCCESSFUL';
-const AUTH = 'https://norma.nomoreparties.space/api/auth';
-
-function checkResponse(res) {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Ошибка ${res.status}`);
-}
+const AUTH = `${baseUrl}/auth`;
 
 export function register({ email, password, name }) {
   return function (dispatch) {
@@ -106,7 +101,7 @@ export function loggingOut() {
 export function forgotPassword( email , history, location) {
   return function(dispatch) {
     dispatch({ type: IS_REQUESTING });
-    fetch('https://norma.nomoreparties.space/api/password-reset', {
+    fetch(`${baseUrl}/password-reset`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -134,7 +129,7 @@ export function resetPassword(password, token, history) {
   return function (dispatch) {
     dispatch({ type: IS_REQUESTING });
 
-    fetch('https://norma.nomoreparties.space/api/password-reset/reset', {
+    fetch(`${baseUrl}/password-reset/reset`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

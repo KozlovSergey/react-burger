@@ -1,3 +1,5 @@
+import {baseUrl} from "../../utils/constants";
+
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
@@ -13,7 +15,7 @@ export const CLEAR_ORDER_NUMBER = 'CLEAR_ORDER_NUMBER';
 export const REPLACE_INGREDIENTS = 'REPLACE_INGREDIENTS';
 
 export function getIngredients() {
-  const API = 'https://norma.nomoreparties.space/api/ingredients';
+  const API = `${baseUrl}/ingredients`;
 
   return function(dispatch) {
     dispatch({
@@ -39,7 +41,7 @@ export function getIngredients() {
 }
 
 export function getOrderNumber(ingredients) {
-  const API = 'https://norma.nomoreparties.space/api/orders';
+  const API = `${baseUrl}/orders`;
 
   return function(dispatch) {
     dispatch({

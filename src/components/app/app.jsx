@@ -50,24 +50,6 @@ function App() {
   },[history]);
 
   useEffect(() => {
-    const close = (e) => {
-      if(e.keyCode === 27){
-        if(background) {
-          closeIngredientModal();
-        }
-        else if(orderVisible) {
-          setOrderVisible(false);
-        }
-      }
-    }
-
-    window.addEventListener('keydown', close);
-
-    return () => window.removeEventListener('keydown', close);
-
-  },[orderVisible, history, background, closeIngredientModal]);
-
-  useEffect(() => {
     dispatch(getIngredients());
   }, [dispatch]);
 
