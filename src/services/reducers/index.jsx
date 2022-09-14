@@ -12,7 +12,6 @@ import {
   CLEAR_ORDER_NUMBER,
   REPLACE_INGREDIENTS
 } from '../actions';
-import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
   ingredients: [],
@@ -58,7 +57,6 @@ export const getIngredientsReducer = (state = initialState, action) => {
       }
     }
     case ADD_INGREDIENT_TO_CONSTRUCTOR: {
-      action.draggedIngredient.uuid = uuidv4();
       return {
         ...state,
         constructorIngredients: [...state.constructorIngredients, action.draggedIngredient]
