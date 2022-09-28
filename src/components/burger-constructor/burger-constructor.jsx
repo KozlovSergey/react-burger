@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { 
-  ConstructorElement, 
-  Button, 
+import {
+  ConstructorElement,
+  Button,
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styles from './burger-constructor.module.css';
-import { 
-  ADD_INGREDIENT_TO_CONSTRUCTOR, 
+import {
+  ADD_INGREDIENT_TO_CONSTRUCTOR,
   DELETE_INGREDIENT_FROM_CONSTRUCTOR,
   getOrderNumber
 } from '../../services/actions';
@@ -18,11 +19,13 @@ import { v4 as uuidv4 } from 'uuid';
 
 function BurgerConstructor(props) {
   const constructorIngredients = useSelector(store => store.burger.constructorIngredients);
-  let total = useSelector(store => store.burger.constructorIngredients).reduce((accumulator, { price }) =>  { 
+  let total = useSelector(store => store.burger.constructorIngredients).reduce((accumulator, { price }) =>  {
     return  accumulator + parseInt(price)
   }, 0);
   const dispatch = useDispatch();
   const burgerBun = useSelector(store => store.burger.constructorIngredients).filter(item => item.type === 'bun');
+  const { isAuth } = useSelector(store => store.user);
+  const history = useHistory();
 
   const [, dropTarget] = useDrop({
     accept: "ingredient",
@@ -31,7 +34,7 @@ function BurgerConstructor(props) {
       if(item.type === 'bun') { 
         for(let i = 0; i < 2; i++) {
           if(burgerBun.length > 0) {
-            let id = burgerBun[0]._id;  
+            let id = burgerBun[0]._id;
             dispatch({
               type: DELETE_INGREDIENT_FROM_CONSTRUCTOR,
               id: id
@@ -95,12 +98,17 @@ function BurgerConstructor(props) {
           {total}
           <CurrencyIcon type="primary" />
         </span>
-        <Button 
-          type="primary" 
-          size="large" 
-          onClick={() => { 
+        <Button
+          type="primary"
+          size="large"
+          onClick={() => {
             if(burgerBun && constructorIngredients.length > 2) {
-              dispatch(getOrderNumber(constructorIngredients)); 
+              if (!isAuth) {
+                history.push('/login');
+                return;
+              }
+
+              dispatch(getOrderNumber(constructorIngredients));
               props.openModal();
             }
           }}

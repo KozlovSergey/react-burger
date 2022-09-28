@@ -1,77 +1,108 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import styles from './app.module.css';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import AppHeader from '../app-header/app-header';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import ProtectedRoute from '../protected-route/protected-route';
+import { getIngredients, CLEAR_ORDER_NUMBER } from '../../services/actions';
 import {
-  getIngredients,
-  SET_CURRENT_INGREDIENT,
-  DELETE_CURRENT_INGREDIENT
-} from '../../services/actions';
+  HomePage,
+  Registration,
+  Login,
+  ForgotPassword,
+  ResetPassword,
+  Profile,
+  Orders,
+  PageNotFound
+} from '../../pages';
 
 function App() {
   const [orderVisible, setOrderVisible] = React.useState(false);
-  const [ingredientVisible, setIngredientVisible] = React.useState(false);
-  
-  const currentIngredient = useSelector(store => store.burger.currentIngredient);
   const dispatch = useDispatch();
-  
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, [dispatch]);
-  
+  const history = useHistory();
+  const location = useLocation();
+
+  let background = location.state;
+
+  if (location.state) {
+    background = location.state.background;
+  }
+
+  if (history.action !== 'PUSH') {
+    background = undefined;
+  }
+
   const closeOrderModal = () => {
+    dispatch({ type: CLEAR_ORDER_NUMBER });
     setOrderVisible(false);
   };
-  
+
   const openOrderModal = () => {
     setOrderVisible(true);
   };
-  
-  const closeIngredientModal = () => {
-    setIngredientVisible(false);
-    dispatch({
-      type: DELETE_CURRENT_INGREDIENT
-    })
-  }
-  
-  const openIngredientModal = (item) => {
-    dispatch({
-      type: SET_CURRENT_INGREDIENT,
-      currentIngredient: item
-    })
-    setIngredientVisible(true);
-  }
-  
+
+  const closeIngredientModal = useCallback(() => {
+    history.push('/');
+  },[history]);
+
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, [dispatch]);
+
   return (
     <div className="App">
-      <AppHeader/>
-      <DndProvider backend={HTML5Backend}>
-        <main className={styles.main}>
-          <BurgerIngredients openModal={openIngredientModal}/>
-          <BurgerConstructor openModal={openOrderModal}/>
-        </main>
-      </DndProvider>
-      {/*{orderVisible &&*/}
-      {/*(*/}
-        <Modal isVisible={orderVisible} onClick={closeOrderModal} header="">
-          <OrderDetails/>
-        </Modal>
-      {/*)*/}
-      {/*}*/}
-      {/*{ingredientVisible &&*/}
-      {/*(*/}
-        <Modal isVisible={ingredientVisible} onClick={closeIngredientModal} header="Детали ингредиента">
-          <IngredientDetails currentIngredient={currentIngredient}/>
-        </Modal>
-      {/*)*/}
-      {/*}*/}
+      <AppHeader />
+      <Switch location={background || location}>
+        <Route path="/" exact={true}>
+          <DndProvider backend={HTML5Backend}>
+            <HomePage openModal={openOrderModal}/>
+          </DndProvider>
+        </Route>
+        <Route path="/register" exact={true}>
+          <Registration />
+        </Route>
+        <Route path="/login" exact={true}>
+          <Login />
+        </Route>
+        <Route path="/forgot-password" exact={true}>
+          <ForgotPassword />
+        </Route>
+        <Route path="/reset-password" exact={true}>
+          <ResetPassword />
+        </Route>
+        <ProtectedRoute path="/profile">
+          <Profile />
+        </ProtectedRoute>
+        <Route path="/orders" exact={true}>
+          <Orders />
+        </Route>
+        <Route path={"/ingredients/:ingredientId"}>
+          <IngredientDetails header="Детали ингредиента"/>
+        </Route>
+        <Route>
+          <PageNotFound />
+        </Route>
+      </Switch>
+      { orderVisible &&
+        (
+          <Modal onClick={closeOrderModal} header="">
+            <OrderDetails />
+          </Modal>
+        )
+      }
+      { background &&
+        (
+          <Route path={"/ingredients/:ingredientId"}>
+            <Modal onClick={closeIngredientModal} header="Детали ингредиента">
+              <IngredientDetails />
+            </Modal>
+          </Route>
+        )
+      }
     </div>
   );
 }

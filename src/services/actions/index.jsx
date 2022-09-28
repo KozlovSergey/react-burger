@@ -1,5 +1,4 @@
-import { API_GET_DATA, API_ORDERS } from "../../utils/constants";
-import { checkResponse } from "../../utils/checkResponse";
+import {baseUrl} from "../../utils/constants";
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
@@ -12,15 +11,22 @@ export const INCREASE_INGREDIENT_COUNTER = 'INCREASE_INGREDIENT_COUNTER';
 export const GET_ORDER_NUMBER_REQUEST = 'GET_ORDER_NUMBER_REQUEST';
 export const GET_ORDER_NUMBER_SUCCESS = 'GET_ORDER_NUMBER_SUCCESS';
 export const GET_ORDER_NUMBER_FAILED = 'GET_ORDER_NUMBER_FAILED';
+export const CLEAR_ORDER_NUMBER = 'CLEAR_ORDER_NUMBER';
 export const REPLACE_INGREDIENTS = 'REPLACE_INGREDIENTS';
 
 export function getIngredients() {
-  return function (dispatch) {
+  const API = `${baseUrl}/ingredients`;
+
+  return function(dispatch) {
     dispatch({
       type: GET_INGREDIENTS_REQUEST,
     })
-    fetch(API_GET_DATA)
-    .then(checkResponse)
+    fetch(API).then(res => {
+      if (res.ok) {
+          return res.json();
+      }
+      return Promise.reject(`Ошибка ${res.status}`);
+    })
     .then(data => dispatch({
       type: GET_INGREDIENTS_SUCCESS,
       data: data.data
@@ -35,23 +41,30 @@ export function getIngredients() {
 }
 
 export function getOrderNumber(ingredients) {
-  return function (dispatch) {
+  const API = `${baseUrl}/orders`;
+
+  return function(dispatch) {
     dispatch({
       type: GET_ORDER_NUMBER_REQUEST,
     });
-    
+
     const data = {
       "ingredients": ingredients.map(item => item._id)
     };
-    
-    fetch(API_ORDERS, {
+
+    fetch(API, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     })
-    .then(checkResponse)
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка ${res.status}`);
+    })
     .then(data => {
       dispatch({
         type: GET_ORDER_NUMBER_SUCCESS,
@@ -68,7 +81,7 @@ export function getOrderNumber(ingredients) {
 }
 
 export const replaceItems = (dragIndex, hoverIndex) => {
-  return function (dispatch) {
+  return function(dispatch) {
     dispatch({
       type: REPLACE_INGREDIENTS,
       payload: {
