@@ -1,5 +1,5 @@
+import { getCookie } from "../cookies";
 import {baseUrl} from "../../utils/constants";
-
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
@@ -56,6 +56,7 @@ export function getOrderNumber(ingredients) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'authorization': getCookie('accessToken')
       },
       body: JSON.stringify(data),
     })

@@ -6,18 +6,19 @@ import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import AppHeader from '../app-header/app-header';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
+import OrderInfo from '../order-info/order-info';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import ProtectedRoute from '../protected-route/protected-route';
 import { getIngredients, CLEAR_ORDER_NUMBER } from '../../services/actions';
-import {
+import { 
   HomePage,
-  Registration,
-  Login,
-  ForgotPassword,
-  ResetPassword,
-  Profile,
-  Orders,
-  PageNotFound
+  Registration, 
+  Login, 
+  ForgotPassword, 
+  ResetPassword, 
+  Profile, 
+  Orders, 
+  PageNotFound 
 } from '../../pages';
 
 function App() {
@@ -50,6 +51,24 @@ function App() {
   },[history]);
 
   useEffect(() => {
+    const close = (e) => {
+      if(e.keyCode === 27){
+        if(background) {
+          closeIngredientModal();
+        }
+        else if(orderVisible) {
+          setOrderVisible(false);
+        }
+      }
+    }
+
+    window.addEventListener('keydown', close);
+
+    return () => window.removeEventListener('keydown', close);
+
+  },[orderVisible, history, background, closeIngredientModal]);
+  
+  useEffect(() => {
     dispatch(getIngredients());
   }, [dispatch]);
 
@@ -80,6 +99,9 @@ function App() {
         <Route path="/orders" exact={true}>
           <Orders />
         </Route>
+        <Route path={"/orders/:orderId"} exact={true}>
+          <OrderInfo className={"mt-30 test"} />
+        </Route>
         <Route path={"/ingredients/:ingredientId"}>
           <IngredientDetails header="Детали ингредиента"/>
         </Route>
@@ -87,20 +109,29 @@ function App() {
           <PageNotFound />
         </Route>
       </Switch>
-      { orderVisible &&
+      { background && 
+        ( 
+          <Switch>
+            <Route path={"/ingredients/:ingredientId"}>
+              <Modal onClick={closeIngredientModal} header="Детали ингредиента">
+                <IngredientDetails />
+              </Modal>
+            </Route>
+            <Route path={"/orders/:orderId"} exact={true}>
+              <Modal title={'Заказ'} onClick={() => {
+                history.push('/orders');
+              }}>
+                <OrderInfo/>
+              </Modal>
+            </Route>
+          </Switch>
+        )
+      }
+      { orderVisible && 
         (
           <Modal onClick={closeOrderModal} header="">
             <OrderDetails />
           </Modal>
-        )
-      }
-      { background &&
-        (
-          <Route path={"/ingredients/:ingredientId"}>
-            <Modal onClick={closeIngredientModal} header="Детали ингредиента">
-              <IngredientDetails />
-            </Modal>
-          </Route>
         )
       }
     </div>

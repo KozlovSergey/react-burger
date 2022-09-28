@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useLocation, Link } from 'react-router-dom';
 import styles from './burger-ingredients-item.module.css';
-import ingredientType from "../../utils/ingridient.type";
 
 function BurgerIngredientsItem(props) {
   const location = useLocation();
@@ -17,36 +16,49 @@ function BurgerIngredientsItem(props) {
   });
 
   return (
-    <li
-      key={props.data._id}
-      className="mb-8"
+    <li 
+      key={props.data._id} 
+      className="mb-8" 
       ref={dragRef}
-    >
-      <Link
-        to={{
-          pathname: `/ingredients/${props.data._id}`,
-          state: { background: location }
-        }}
-        className={styles.link}
       >
-        {
-          ingredients.length > 0 && (
-            <span className={`${styles.count} text_type_digits-default`}>{ingredients.length}</span>
-          )
-        }
-        <img src={props.data.image} alt=""/>
-        <span className={`${styles.price} mt-2 mb-1 text_type_digits-default`}>
+        <Link 
+          to={{
+            pathname: `/ingredients/${props.data._id}`,
+            state: { background: location }
+          }}
+          className={styles.link}
+        >
+          {
+            ingredients.length > 0 && (
+              <span className={`${styles.count} text_type_digits-default`}>{ingredients.length}</span>
+            )
+          }
+          <img src={props.data.image} alt=""/>
+          <span className={`${styles.price} mt-2 mb-1 text_type_digits-default`}>
             {props.data.price}
-          <CurrencyIcon type="primary" />
+            <CurrencyIcon type="primary" />
           </span>
-        <p className={`${styles.name} text_type_main-default`}>{props.data.name}</p>
-      </Link>
+          <p className={`${styles.name} text_type_main-default`}>{props.data.name}</p>
+        </Link>
     </li>
   );
 }
 
-BurgerIngredientsItem.propTypes = {
-  data: ingredientType.isRequired,
+BurgerIngredientsItem.propTypes = { 
+  data: PropTypes.shape({  
+    _id: PropTypes.string,
+    name: PropTypes.string,
+    type: PropTypes.string,
+    proteins: PropTypes.number,
+    fat: PropTypes.number,
+    carbohydrates: PropTypes.number,
+    calories: PropTypes.number,
+    price: PropTypes.number,
+    image: PropTypes.string,
+    image_mobile: PropTypes.string,
+    image_large: PropTypes.string,
+    __v: PropTypes.number
+  }).isRequired,
 };
 
 export default BurgerIngredientsItem;

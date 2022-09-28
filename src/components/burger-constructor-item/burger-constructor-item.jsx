@@ -1,17 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  ConstructorElement,
-  DragIcon
+import { 
+  ConstructorElement, 
+  DragIcon 
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch } from 'react-redux';
 import { useDrop, useDrag } from 'react-dnd';
-import {
+import {  
   DELETE_INGREDIENT_FROM_CONSTRUCTOR,
   replaceItems
 } from '../../services/actions';
 import styles from './burger-constructor-item.module.css';
-import ingredientType from "../../utils/ingridient.type";
 
 function BurgerConstructorItem(props) {
   const dispatch = useDispatch();
@@ -23,7 +22,7 @@ function BurgerConstructorItem(props) {
       type: DELETE_INGREDIENT_FROM_CONSTRUCTOR,
       id: item._id
     })
-  };
+  }; 
 
   const ref = React.useRef(null);
 
@@ -33,7 +32,7 @@ function BurgerConstructorItem(props) {
       if (!ref.current) {
         return;
       }
-
+      
       const dragIndex = item.index;
       const hoverIndex = props.index;
 
@@ -51,7 +50,7 @@ function BurgerConstructorItem(props) {
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
-
+ 
       dispatch(replaceItems(dragIndex, hoverIndex));
 
       item.index = hoverIndex;
@@ -73,8 +72,8 @@ function BurgerConstructorItem(props) {
   const opacity = isDragging ? 0 : 1;
 
   return (
-    <div
-      className={`${styles.item} mb-4`}
+    <div 
+      className={`${styles.item} mb-4`} 
       style={{ opacity }}
       ref={ref}
       draggable
@@ -91,8 +90,21 @@ function BurgerConstructorItem(props) {
   );
 }
 
-BurgerConstructorItem.propTypes = {
-  item: ingredientType.isRequired,
+BurgerConstructorItem.propTypes = { 
+  item: PropTypes.shape({  
+    _id: PropTypes.string,
+    name: PropTypes.string,
+    type: PropTypes.string,
+    proteins: PropTypes.number,
+    fat: PropTypes.number,
+    carbohydrates: PropTypes.number,
+    calories: PropTypes.number,
+    price: PropTypes.number,
+    image: PropTypes.string,
+    image_mobile: PropTypes.string,
+    image_large: PropTypes.string,
+    __v: PropTypes.number
+  }).isRequired,
   index: PropTypes.number.isRequired
 };
 

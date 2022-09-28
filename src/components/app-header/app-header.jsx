@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import {
+import { 
   BurgerIcon,
   ListIcon,
   Logo,
@@ -13,18 +13,18 @@ function AppHeader() {
   return (
     <header className={`${appStyles.header} pt-4 pb-4`}>
       <nav className={appStyles.nav}>
-        <NavLink
-          to="/"
-          exact={true}
+        <NavLink 
+          to="/" 
+          exact={true} 
           className={`${appStyles.button} pt-4 pr-5 pb-4 pl-5 mr-2`}
           activeClassName={appStyles.button_active}
         >
           <BurgerIcon type="secondary" />
           <span className={`${appStyles.button_text} ml-2 text_type_main-default`}>Конструктор</span>
         </NavLink>
-        <NavLink
-          to="/orders"
-          exact={true}
+        <NavLink 
+          to="/orders" 
+          exact={true} 
           className={`${appStyles.button} pt-4 pr-5 pb-4 pl-5 mr-2`}
           activeClassName={appStyles.button_active}
         >
@@ -34,8 +34,8 @@ function AppHeader() {
         <Link to="/" className={appStyles.logo}>
           <Logo />
         </Link>
-        <NavLink
-          to="/profile"
+        <NavLink 
+          to="/profile" 
           className={`${appStyles.button} pt-4 pr-5 pb-4 pl-5 mr-2`}
           activeClassName={appStyles.button_active}
         >

@@ -1,25 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  ConstructorElement,
-  Button,
+import { 
+  ConstructorElement, 
+  Button, 
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styles from './burger-constructor.module.css';
-import {
-  ADD_INGREDIENT_TO_CONSTRUCTOR,
+import { 
+  ADD_INGREDIENT_TO_CONSTRUCTOR, 
   DELETE_INGREDIENT_FROM_CONSTRUCTOR,
   getOrderNumber
 } from '../../services/actions';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
-import { v4 as uuidv4 } from 'uuid';
 
 function BurgerConstructor(props) {
   const constructorIngredients = useSelector(store => store.burger.constructorIngredients);
-  let total = useSelector(store => store.burger.constructorIngredients).reduce((accumulator, { price }) =>  {
+  let total = useSelector(store => store.burger.constructorIngredients).reduce((accumulator, { price }) =>  { 
     return  accumulator + parseInt(price)
   }, 0);
   const dispatch = useDispatch();
@@ -30,11 +29,10 @@ function BurgerConstructor(props) {
   const [, dropTarget] = useDrop({
     accept: "ingredient",
     drop(item) {
-      item = {...item, uuid: uuidv4()}
       if(item.type === 'bun') { 
         for(let i = 0; i < 2; i++) {
           if(burgerBun.length > 0) {
-            let id = burgerBun[0]._id;
+            let id = burgerBun[0]._id;  
             dispatch({
               type: DELETE_INGREDIENT_FROM_CONSTRUCTOR,
               id: id
@@ -74,7 +72,7 @@ function BurgerConstructor(props) {
         <div className={`${styles.scrollable} mb-4 pr-4`}>
           {
             constructorIngredients.map((item,index) => item.type !== 'bun' && (
-                <BurgerConstructorItem item={item} key={item.uuid} index={index}/>
+                <BurgerConstructorItem item={item} key={index} index={index}/>
               )
             )
           }
@@ -98,17 +96,17 @@ function BurgerConstructor(props) {
           {total}
           <CurrencyIcon type="primary" />
         </span>
-        <Button
-          type="primary"
-          size="large"
-          onClick={() => {
+        <Button 
+          type="primary" 
+          size="large" 
+          onClick={() => { 
             if(burgerBun && constructorIngredients.length > 2) {
               if (!isAuth) {
                 history.push('/login');
                 return;
               }
 
-              dispatch(getOrderNumber(constructorIngredients));
+              dispatch(getOrderNumber(constructorIngredients)); 
               props.openModal();
             }
           }}

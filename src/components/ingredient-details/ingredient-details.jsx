@@ -8,7 +8,7 @@ function IngredientDetails(props) {
   const { ingredientId } = useParams();
   const ingredients = useSelector(store => store.burger.ingredients);
   const currentIngredient = ingredients.find(ingredient => ingredient._id === ingredientId);
-
+  
   return (
     <section className={styles.root}>
       {
