@@ -11,7 +11,7 @@ interface IOrderItemProps {
   showStatus: boolean;
 }
 
-const OrderItem: FC<IOrderItemProps> = ({ order, showStatus = false }) => {
+const OrderItem: FC<IOrderItemProps> = ({order, showStatus = false}) => {
   const ingredients = useSelector((store: RootState) => store.burger.ingredients);
   let icons: Array<string> = [];
   let totalValue = 0;
@@ -74,7 +74,7 @@ const OrderItem: FC<IOrderItemProps> = ({ order, showStatus = false }) => {
             />
           ))}
           {showMore &&
-          <div className={`text text_type_main-default ${styles.moreItems}`}>+{extraValue}</div>
+            <div className={`text text_type_main-default ${styles.moreItems}`}>+{extraValue}</div>
           }
         </div>
         <div className={styles.total}>

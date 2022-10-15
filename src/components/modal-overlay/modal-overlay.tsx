@@ -8,8 +8,8 @@ interface IModalOverlayProps {
   onClick: () => void
 }
 
-const ModalOverlay: FC<IModalOverlayProps> = ({ children, onClick }) => {
-  if(modalRoot) {
+const ModalOverlay: FC<IModalOverlayProps> = ({children, onClick}) => {
+  if (modalRoot) {
     return ReactDOM.createPortal(
       (
         <div className={styles.root} onClick={onClick}>

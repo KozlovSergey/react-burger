@@ -11,7 +11,7 @@ interface IBurgerIngredientsItemProps {
   data: TIngredient;
 }
 
-const BurgerIngredientsItem: FC<IBurgerIngredientsItemProps> = ({ data }) => {
+const BurgerIngredientsItem: FC<IBurgerIngredientsItemProps> = ({data}) => {
   const location = useLocation();
   const ingredients = useSelector((store: RootState) => store.burger.constructorIngredients).filter((item: TIngredient) => item._id === data._id);
 
@@ -29,7 +29,7 @@ const BurgerIngredientsItem: FC<IBurgerIngredientsItemProps> = ({ data }) => {
       <Link
         to={{
           pathname: `/ingredients/${data._id}`,
-          state: { background: location }
+          state: {background: location}
         }}
         className={styles.link}
       >
@@ -41,7 +41,7 @@ const BurgerIngredientsItem: FC<IBurgerIngredientsItemProps> = ({ data }) => {
         <img src={data.image} alt=""/>
         <span className={`${styles.price} mt-2 mb-1 text_type_digits-default`}>
             {data.price}
-          <CurrencyIcon type="primary" />
+          <CurrencyIcon type="primary"/>
           </span>
         <p className={`${styles.name} text_type_main-default`}>{data.name}</p>
       </Link>

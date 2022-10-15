@@ -27,7 +27,7 @@ const BurgerIngredients: FC = () => {
   const bunRef = useRef<any>(null);
   const sauceRef = useRef<any>(null);
   const mainRef = useRef<any>(null);
-  const apiData  = useSelector((store: RootState) => store.burger.ingredients);
+  const apiData = useSelector((store: RootState) => store.burger.ingredients);
 
   const handleScroll = () => {
     const scrollContainerPosition = scrollContainerRef.current.getBoundingClientRect()
@@ -41,7 +41,7 @@ const BurgerIngredients: FC = () => {
     const sauceDiff = Math.abs(scrollContainerPosition - sauceHeaderPosition);
     const maindDiff = Math.abs(scrollContainerPosition - mainHeaderPosition);
 
-    if(bunDiff < sauceDiff) {
+    if (bunDiff < sauceDiff) {
       setCurrent('bun');
     } else if (sauceDiff < maindDiff) {
       setCurrent('sauce');
@@ -53,7 +53,7 @@ const BurgerIngredients: FC = () => {
   return (
     <section className={`${styles.root} mr-10`}>
       <h1 className={`${styles.title} text_type_main-large mt-10 mb-5`}>Соберите бургер</h1>
-      <div style={{ display: 'flex' }} className={`mb-8`}>
+      <div style={{display: 'flex'}} className={`mb-8`}>
         {
           tabs.map((item) => (
             <Tab
@@ -81,7 +81,7 @@ const BurgerIngredients: FC = () => {
                 >{item.title}</h2>
                 <ul className={`${styles.cardContainer} pl-4 pr-2`}>
                   {
-                    apiData.filter((el: TIngredient) => el.type === item.name ).map((ingredient: TIngredient) => (
+                    apiData.filter((el: TIngredient) => el.type === item.name).map((ingredient: TIngredient) => (
                       <BurgerIngredientsItem
                         key={ingredient.name}
                         data={ingredient}

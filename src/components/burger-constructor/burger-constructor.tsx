@@ -19,29 +19,28 @@ interface IBurgerConstructorProps {
   openModal: () => void
 }
 
-const BurgerConstructor: FC<IBurgerConstructorProps> = ({ openModal }) => {
+const BurgerConstructor: FC<IBurgerConstructorProps> = ({openModal}) => {
   const constructorIngredients = useSelector((store: RootState) => store.burger.constructorIngredients);
-  let total = useSelector((store: RootState) => store.burger.constructorIngredients).reduce((accumulator: number, { price }: any) =>  {
-    return  accumulator + parseInt(price)
+  let total = useSelector((store: RootState) => store.burger.constructorIngredients).reduce((accumulator: number, {price}: any) => {
+    return accumulator + parseInt(price)
   }, 0);
   const dispatch = useDispatch();
   const burgerBun = useSelector((store: RootState) => store.burger.constructorIngredients).filter((item: TIngredient) => item.type === 'bun');
-  const { isAuth } = useSelector((store: RootState) => store.user);
+  const {isAuth} = useSelector((store: RootState) => store.user);
   const history = useHistory();
 
   const [, dropTarget] = useDrop({
     accept: "ingredient",
     drop(item: TIngredient) {
-      if(item.type === 'bun') {
-        for(let i = 0; i < 2; i++) {
-          if(burgerBun.length > 0) {
+      if (item.type === 'bun') {
+        for (let i = 0; i < 2; i++) {
+          if (burgerBun.length > 0) {
             let id = burgerBun[0]._id;
             dispatch(deleteIngredientFromConstructor(id));
           }
           dispatch(addIngredientToConstructorAction(item));
         }
-      }
-      else {
+      } else {
         dispatch(addIngredientToConstructorAction(item));
       }
     },
@@ -88,13 +87,13 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = ({ openModal }) => {
       <div className={`${styles.total} mt-10 pr-8`}>
         <span className={`${styles.totalSum} mr-10 text_type_digits-medium`}>
           {total}
-          <CurrencyIcon type="primary" />
+          <CurrencyIcon type="primary"/>
         </span>
         <Button
           type="primary"
           size="large"
           onClick={() => {
-            if(burgerBun && constructorIngredients.length > 2) {
+            if (burgerBun && constructorIngredients.length > 2) {
               if (!isAuth) {
                 history.push('/login');
                 return;

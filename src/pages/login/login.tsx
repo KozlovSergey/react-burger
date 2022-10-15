@@ -17,8 +17,8 @@ interface IUseState {
 
 const Login: FC = () => {
   const dispatch = useDispatch();
-  const { isAuth } = useSelector((store: RootState) => store.user);
-  const { state } = useLocation<IUseLocation>();
+  const {isAuth} = useSelector((store: RootState) => store.user);
+  const {state} = useLocation<IUseLocation>();
 
   const [formData, setFormData] = useState<IUseState>({
     email: '',
@@ -34,7 +34,7 @@ const Login: FC = () => {
 
   const onLogging = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(loginning({ ...formData }));
+    dispatch(loginning({...formData}));
   }
 
   if (isAuth) {
@@ -82,7 +82,8 @@ const Login: FC = () => {
         </div>
         <div className={styles.logging}>
           <span className="text_type_main-default">Забыли пароль?</span>
-          <Link to="/forgot-password" className={`${styles.link} ml-2 text_type_main-default`}>Восстановить пароль</Link>
+          <Link to="/forgot-password" className={`${styles.link} ml-2 text_type_main-default`}>Восстановить
+            пароль</Link>
         </div>
       </div>
     </div>

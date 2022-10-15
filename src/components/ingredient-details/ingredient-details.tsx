@@ -25,7 +25,7 @@ const IngredientDetails: FC<IIngredientDetails> = ({header}) => {
       }
       {currentIngredient && (
         <>
-          <img src={currentIngredient.image_large} alt="" />
+          <img src={currentIngredient.image_large} alt=""/>
           <h4 className="text_type_main-medium mb-8 mt-4">{currentIngredient.name}</h4>
           <div className={`${styles.info}`}>
             <div className={`${styles.infoItem} mr-5`}>

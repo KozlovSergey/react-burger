@@ -9,7 +9,7 @@ import { RootState } from '../../services/types';
 
 const ForgotPassword: FC = () => {
   const dispatch = useDispatch();
-  const { isAuth } = useSelector((store: RootState) => store.user);
+  const {isAuth} = useSelector((store: RootState) => store.user);
   const history = useHistory();
   const location = useLocation();
   const [email, setEmail] = useState<string>('');

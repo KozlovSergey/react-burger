@@ -1,9 +1,19 @@
+import { Middleware } from 'redux';
 import { getCookie } from './cookies';
 
-export const socketMiddleware = ( wsUrl, actions, { checkToken } = {}) => {
+type WsActions = {
+	WS_CONNECTION_START: string,
+  WS_CONNECTION_SUCCESS: string,
+  WS_CONNECTION_CLOSED: string, 
+  WS_CONNECTION_ERROR: string,
+  WS_GET_MESSAGE: string
+};
+
+export const socketMiddleware = ( wsUrl: string, actions: WsActions, {checkToken}: {checkToken?: boolean}): Middleware => {
+
 
   return store => {
-    let socket = null;
+    let socket: WebSocket | null = null;
 
     const { 
       WS_CONNECTION_START, 
@@ -15,9 +25,15 @@ export const socketMiddleware = ( wsUrl, actions, { checkToken } = {}) => {
     return next => action => {
       const { dispatch } = store;
       const { type } = action;
+      const token = getCookie('accessToken');
 
       if (type === WS_CONNECTION_START) {
-        socket = new WebSocket(`${wsUrl}${checkToken ? ('?token=' + getCookie('accessToken').slice(7)) : ''}`);
+        if(checkToken && token) {
+          socket = new WebSocket(`${wsUrl}${'?token=' + token.slice(7)}`);
+        } 
+        else {
+          socket = new WebSocket(`${wsUrl}`);
+        }
       }
 
       if (socket) {

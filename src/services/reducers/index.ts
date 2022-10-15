@@ -33,7 +33,7 @@ const initialState: TIgredientsAndOrderState = {
 };
 
 export const getIngredientsReducer = (state = initialState, action: TIgredientsAndOrdersActions) => {
-  switch(action.type) {
+  switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {
         ...state
@@ -78,7 +78,7 @@ export const getIngredientsReducer = (state = initialState, action: TIgredientsA
 
       return {
         ...state,
-        constructorIngredients: state.constructorIngredients.filter((item,index) => index !== itemToDeleteIndex )
+        constructorIngredients: state.constructorIngredients.filter((item, index) => index !== itemToDeleteIndex)
       }
     }
     case GET_ORDER_NUMBER_REQUEST: {

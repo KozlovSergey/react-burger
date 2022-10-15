@@ -16,7 +16,7 @@ const Orders: FC = () => {
   const dispatch = useDispatch();
   const orders = useSelector((store: RootState | any) => store.orders);
   const ordersResponse = orders.orders.orders || [];
-  const orderList =  ordersResponse || [];
+  const orderList = ordersResponse || [];
 
   const ordersNumbers: IOrderNumbers = {
     done: [],
@@ -30,7 +30,7 @@ const Orders: FC = () => {
   });
 
   useEffect(() => {
-    if(!orders.wsConnected) {
+    if (!orders.wsConnected) {
       dispatch(wsConnectionStart());
     }
   }, [dispatch, orders.wsConnected]);

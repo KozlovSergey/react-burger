@@ -13,13 +13,13 @@ interface IOrderListProps {
   showStatus: boolean;
 }
 
-const OrderList: FC<IOrderListProps> = ({ orderList, showStatus }) => {
+const OrderList: FC<IOrderListProps> = ({orderList, showStatus}) => {
   const dispatch = useDispatch();
-  const ingredients = useSelector((store: RootState ) => store.burger.ingredients);
+  const ingredients = useSelector((store: RootState) => store.burger.ingredients);
   const location = useLocation();
 
   useEffect(() => {
-    if(ingredients.length === 0 ) {
+    if (ingredients.length === 0) {
       dispatch(getIngredients());
     }
   }, [dispatch, ingredients.length]);
@@ -29,17 +29,17 @@ const OrderList: FC<IOrderListProps> = ({ orderList, showStatus }) => {
       {
         ingredients.length ? (
             <ul className={styles.list}>
-              { orderList &&
-              orderList.map(item => (
-                <li key={item._id}>
-                  <Link to={{
-                    pathname: `${location.pathname}/${item._id}`,
-                    state: {background: location}
-                  }}>
-                    <OrderItem order={item} key={item._id} showStatus={showStatus}/>
-                  </Link>
-                </li>
-              ))
+              {orderList &&
+                orderList.map(item => (
+                  <li key={item._id}>
+                    <Link to={{
+                      pathname: `${location.pathname}/${item._id}`,
+                      state: {background: location}
+                    }}>
+                      <OrderItem order={item} key={item._id} showStatus={showStatus}/>
+                    </Link>
+                  </li>
+                ))
               }
             </ul>
           )

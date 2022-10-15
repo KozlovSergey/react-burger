@@ -1,11 +1,11 @@
-import { FC, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory, useLocation, Link, Redirect } from 'react-router-dom';
-import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import {FC, useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {useHistory, useLocation, Link, Redirect} from 'react-router-dom';
+import {Button, Input} from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './reset-password.module.css';
-import { resetPassword } from '../../services/actions/user';
-import { RootState } from '../../services/types';
-import { Location } from 'history';
+import {resetPassword} from '../../services/actions/user';
+import {RootState} from '../../services/types';
+import {Location} from 'history';
 
 interface ILocation {
   location: Location;
@@ -16,7 +16,7 @@ interface ILocation {
 
 const ResetPassword: FC = () => {
   const dispatch = useDispatch();
-  const { isAuth } = useSelector((store: RootState) => store.user);
+  const {isAuth} = useSelector((store: RootState) => store.user);
   const history = useHistory();
   const location = useLocation<ILocation>();
   const [token, setToken] = useState('');
