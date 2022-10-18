@@ -38,7 +38,7 @@ const BurgerIngredientsItem: FC<IBurgerIngredientsItemProps> = ({data}) => {
             <span className={`${styles.count} text_type_digits-default`}>{ingredients.length}</span>
           )
         }
-        <img src={data.image} alt=""/>
+        <img src={data.image} alt={data.name} />
         <span className={`${styles.price} mt-2 mb-1 text_type_digits-default`}>
             {data.price}
           <CurrencyIcon type="primary"/>

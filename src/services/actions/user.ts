@@ -14,6 +14,7 @@ import {
 
 import {AppDispatch, AppThunk} from '../types';
 import {TUser} from '../types/data';
+import { BASE_URL } from "../../utils/constants";
 
 const token = getCookie('accessToken');
 
@@ -48,7 +49,7 @@ export type TUserActions =
   | IIsFailed
   | IIsSuccessful;
 
-const AUTH = 'https://norma.nomoreparties.space/api/auth';
+const AUTH = `${BASE_URL}/auth`;
 
 function checkResponse(res: Response) {
   if (res.ok) {
@@ -140,7 +141,7 @@ export const loggingOut: AppThunk = () => (dispatch: AppDispatch) => {
 
 export const forgotPassword: AppThunk = (email: string, history: History, location: string) => (dispatch: AppDispatch) => {
   dispatch(isRequestingAction());
-  fetch('https://norma.nomoreparties.space/api/password-reset', {
+  fetch(`${BASE_URL}/password-reset`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -165,7 +166,7 @@ export const forgotPassword: AppThunk = (email: string, history: History, locati
 export const resetPassword: AppThunk = (password: string, token: string, history: History) => (dispatch: AppDispatch) => {
   dispatch(isRequestingAction());
 
-  fetch('https://norma.nomoreparties.space/api/password-reset/reset', {
+  fetch(`${BASE_URL}/password-reset/reset`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

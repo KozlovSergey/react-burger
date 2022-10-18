@@ -49,12 +49,12 @@ const App: FC = () => {
   };
 
   const closeIngredientModal = useCallback(() => {
-    history.push('/');
+    history.goBack()
   }, [history]);
 
   useEffect(() => {
     const close = (e: KeyboardEvent) => {
-      if (e.keyCode === 27) {
+      if (e.key === 'Escape') {
         if (background) {
           closeIngredientModal();
         } else if (orderVisible) {

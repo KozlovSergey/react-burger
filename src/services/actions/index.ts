@@ -16,6 +16,7 @@ import {
 
 import { AppDispatch, AppThunk } from '../types';
 import { TIngredient } from '../types/data';
+import { BASE_URL } from "../../utils/constants";
 
 const token = getCookie('accessToken');
 
@@ -150,7 +151,7 @@ export type TIgredientsAndOrdersActions =
   | IReplaceIngredients;
 
 export const getIngredients: AppThunk = () => (dispatch: AppDispatch) => {
-  const API = 'https://norma.nomoreparties.space/api/ingredients';
+  const API = `${BASE_URL}/ingredients`;
 
   dispatch(getIngredientsRequestAction())
   fetch(API).then(res => {
@@ -167,7 +168,7 @@ export const getIngredients: AppThunk = () => (dispatch: AppDispatch) => {
 }
 
 export const getOrderNumber: AppThunk = (ingredients: TIngredient[]) => (dispatch: AppDispatch) => {
-  const API = 'https://norma.nomoreparties.space/api/orders';
+  const API = `${BASE_URL}/orders`;
 
   dispatch(getOrderNumberRequestAction());
 

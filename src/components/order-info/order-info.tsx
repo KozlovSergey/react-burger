@@ -100,7 +100,7 @@ const OrderInfo: FC<IOrderInfoProps> = ({className}) => {
             <img
               className={`${styles.ingredient_icon} mr-4`}
               src={composition[ingredient].img}
-              alt=""
+              alt={composition[ingredient].name}
             />
             <span className={`text text_type_main-default`}>{composition[ingredient].name}</span>
           </div>

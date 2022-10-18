@@ -70,7 +70,7 @@ const OrderItem: FC<IOrderItemProps> = ({order, showStatus = false}) => {
               src={src}
               key={index}
               style={{zIndex: 10 - index}}
-              alt=""
+              alt={order.name}
             />
           ))}
           {showMore &&
