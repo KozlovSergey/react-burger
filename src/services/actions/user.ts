@@ -211,7 +211,7 @@ export const getUserInfo: AppThunk = (formData: TUser, setFormData: Function) =>
         dispatch(isFailedAction());
       }
     })
-    .catch(err => {
+    .catch(e => {
       dispatch(isFailedAction());
     })
 }
@@ -239,7 +239,7 @@ export const updateUserInfo: AppThunk = (formData: TUser) => (dispatch: AppDispa
         dispatch(isFailedAction());
       }
     })
-    .catch(err => {
+    .catch(e => {
       dispatch(isFailedAction());
     })
 }

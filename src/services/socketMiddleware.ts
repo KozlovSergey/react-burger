@@ -1,4 +1,4 @@
-import { Middleware } from 'redux';
+import { Middleware, MiddlewareAPI } from 'redux';
 import { getCookie } from './cookies';
 
 type WsActions = {
@@ -10,9 +10,7 @@ type WsActions = {
 };
 
 export const socketMiddleware = ( wsUrl: string, actions: WsActions, {checkToken}: {checkToken?: boolean}): Middleware => {
-
-
-  return store => {
+  return ((store: MiddlewareAPI) => {
     let socket: WebSocket | null = null;
 
     const { 
@@ -60,5 +58,5 @@ export const socketMiddleware = ( wsUrl: string, actions: WsActions, {checkToken
 
       next(action);
     };
-  };
+  });
 };

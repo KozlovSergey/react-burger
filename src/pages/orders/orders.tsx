@@ -1,10 +1,9 @@
 import { FC, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector } from "../../services/hooks";
 import { useDispatch } from '../../services/hooks';
 import styles from './orders.module.css';
 import OrderList from '../../components/order-list/order-list';
-import { wsConnectionStart } from '../../services/actions/ws';
-import { RootState } from '../../services/types';
+import { wsConnectionClosed, wsConnectionStart } from '../../services/actions/ws';
 import { TOrder } from '../../services/types/data';
 
 interface IOrderNumbers {
@@ -14,7 +13,7 @@ interface IOrderNumbers {
 
 const Orders: FC = () => {
   const dispatch = useDispatch();
-  const orders = useSelector((store: RootState | any) => store.orders);
+  const orders = useSelector((store: any) => store.orders);
   const ordersResponse = orders.orders.orders || [];
   const orderList = ordersResponse || [];
 
@@ -30,8 +29,10 @@ const Orders: FC = () => {
   });
 
   useEffect(() => {
-    if (!orders.wsConnected) {
-      dispatch(wsConnectionStart());
+    dispatch(wsConnectionStart());
+
+    return () => {
+      dispatch((wsConnectionClosed()));
     }
   }, [dispatch, orders.wsConnected]);
 

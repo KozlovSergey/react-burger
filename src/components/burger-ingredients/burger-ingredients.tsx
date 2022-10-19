@@ -1,10 +1,9 @@
 import { FC, useState, useRef } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
 import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients-item';
 import styles from './burger-ingredients.module.css';
-import { RootState } from '../../services/types';
 import { TIngredient } from '../../services/types/data';
+import { useSelector } from "../../services/hooks";
 
 const BurgerIngredients: FC = () => {
   const tabs = [
@@ -27,7 +26,7 @@ const BurgerIngredients: FC = () => {
   const bunRef = useRef<any>(null);
   const sauceRef = useRef<any>(null);
   const mainRef = useRef<any>(null);
-  const apiData = useSelector((store: RootState) => store.burger.ingredients);
+  const apiData = useSelector((store) => store.burger.ingredients);
 
   const handleScroll = () => {
     const scrollContainerPosition = scrollContainerRef.current.getBoundingClientRect()
@@ -81,7 +80,7 @@ const BurgerIngredients: FC = () => {
                 >{item.title}</h2>
                 <ul className={`${styles.cardContainer} pl-4 pr-2`}>
                   {
-                    apiData.filter((el: TIngredient) => el.type === item.name).map((ingredient: TIngredient) => (
+                    apiData.filter((el: TIngredient) => el.type === item.name).map((ingredient) => (
                       <BurgerIngredientsItem
                         key={ingredient.name}
                         data={ingredient}

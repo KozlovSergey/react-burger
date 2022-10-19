@@ -1,10 +1,9 @@
 import { FC, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { loginning } from '../../services/actions/user';
 import styles from './login.module.css';
-import { RootState } from '../../services/types';
 
 interface IUseLocation {
   from: string;
@@ -17,7 +16,7 @@ interface IUseState {
 
 const Login: FC = () => {
   const dispatch = useDispatch();
-  const {isAuth} = useSelector((store: RootState) => store.user);
+  const {isAuth} = useSelector((store) => store.user);
   const {state} = useLocation<IUseLocation>();
 
   const [formData, setFormData] = useState<IUseState>({

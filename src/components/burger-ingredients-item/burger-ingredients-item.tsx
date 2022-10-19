@@ -1,11 +1,10 @@
 import { FC } from 'react';
 import { useDrag } from "react-dnd";
-import { useSelector } from 'react-redux';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useLocation, Link } from 'react-router-dom';
 import styles from './burger-ingredients-item.module.css';
-import { RootState } from '../../services/types';
 import { TIngredient } from '../../services/types/data';
+import { useSelector } from "../../services/hooks";
 
 interface IBurgerIngredientsItemProps {
   data: TIngredient;
@@ -13,7 +12,7 @@ interface IBurgerIngredientsItemProps {
 
 const BurgerIngredientsItem: FC<IBurgerIngredientsItemProps> = ({data}) => {
   const location = useLocation();
-  const ingredients = useSelector((store: RootState) => store.burger.constructorIngredients).filter((item: TIngredient) => item._id === data._id);
+  const ingredients = useSelector((store) => store.burger.constructorIngredients).filter((item: TIngredient) => item._id === data._id);
 
   const [, dragRef] = useDrag({
     type: "ingredient",

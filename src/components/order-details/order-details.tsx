@@ -1,11 +1,10 @@
 import { FC } from 'react';
 import styles from './order-details.module.css';
 import doneIcon from '../../images/done.svg';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../services/types';
+import { useSelector } from "../../services/hooks";
 
 const OrderDetails: FC = () => {
-  const orderNumber = useSelector((store: RootState) => store.burger.order.orderNumber);
+  const orderNumber = useSelector((store) => store.burger.order.orderNumber);
 
   return (
     <section className={`${styles.root}`}>

@@ -1,16 +1,14 @@
 import {FC, useState} from 'react';
 import {Link, Redirect} from 'react-router-dom';
-import {useSelector} from 'react-redux';
-import {useDispatch} from '../../services/hooks';
+import {useSelector, useDispatch} from '../../services/hooks';
 import {Button, Input} from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './registration.module.css';
 import {register} from '../../services/actions/user';
-import {RootState} from '../../services/types';
 import {TUser} from '../../services/types/data';
 
 const Registration: FC = () => {
   const dispatch = useDispatch();
-  const {isAuth} = useSelector((store: RootState) => store.user);
+  const {isAuth} = useSelector((store) => store.user);
 
   const [formData, setFormData] = useState<TUser>({
     name: '',

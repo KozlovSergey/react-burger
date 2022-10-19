@@ -1,12 +1,9 @@
-import { FC, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useDispatch } from '../../services/hooks';
+import { FC } from 'react';
+import { useSelector } from "../../services/hooks";
 import { Link, useLocation } from 'react-router-dom';
 import styles from './order-list.module.css';
 import OrderItem from '../order-item/order-item';
-import { getIngredients } from '../../services/actions';
 import { TOrder } from '../../services/types/data';
-import { RootState } from '../../services/types';
 
 interface IOrderListProps {
   orderList: TOrder[];
@@ -14,15 +11,8 @@ interface IOrderListProps {
 }
 
 const OrderList: FC<IOrderListProps> = ({orderList, showStatus}) => {
-  const dispatch = useDispatch();
-  const ingredients = useSelector((store: RootState) => store.burger.ingredients);
+  const ingredients = useSelector((store) => store.burger.ingredients);
   const location = useLocation();
-
-  useEffect(() => {
-    if (ingredients.length === 0) {
-      dispatch(getIngredients());
-    }
-  }, [dispatch, ingredients.length]);
 
   return (
     <>

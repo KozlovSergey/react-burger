@@ -1,7 +1,6 @@
 import {FC, ReactNode} from 'react';
 import {Route, Redirect} from 'react-router-dom';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../services/types';
+import { useSelector } from "../../services/hooks";
 
 interface IProtectedRouteProps {
   path: string;
@@ -10,7 +9,7 @@ interface IProtectedRouteProps {
 }
 
 const ProtectedRoute: FC<IProtectedRouteProps> = ({path, exact, children}) => {
-  const {isAuth} = useSelector((store: RootState) => store.user);
+  const {isAuth} = useSelector((store) => store.user);
 
   return (
     <Route

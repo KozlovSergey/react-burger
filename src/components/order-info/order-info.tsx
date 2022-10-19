@@ -1,14 +1,12 @@
 import { FC, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../services/hooks';
 import { useLocation, useParams, matchPath } from "react-router-dom";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { getIngredients } from '../../services/actions';
 import { WS_CONNECTION_START } from '../../services/constants';
 import { WS_USER_CONNECTION_START } from '../../services/constants';
 import dataConverter from '../../utils/dataConverter';
 import styles from './order-info.module.css';
 import cx from 'classnames';
-import { RootState } from '../../services/types';
 import { TIngredient } from '../../services/types/data';
 
 interface IOrderInfoProps {
@@ -18,9 +16,9 @@ interface IOrderInfoProps {
 const OrderInfo: FC<IOrderInfoProps> = ({className}) => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const ordersAll = useSelector((store: RootState | any) => store.orders);
-  const ordersUser = useSelector((store: RootState) => store.userOrders);
-  const ingredients = useSelector((store: RootState) => store.burger.ingredients);
+  const ordersAll = useSelector((store: any) => store.orders);
+  const ordersUser = useSelector((store) => store.userOrders);
+  const ingredients = useSelector((store) => store.burger.ingredients);
   let {orderId} = useParams<any>();
 
   if (!orderId) {
@@ -37,9 +35,6 @@ const OrderInfo: FC<IOrderInfoProps> = ({className}) => {
   const orders = location.pathname.indexOf('profile') >= 0 ? ordersUser.orders : ordersAll.orders.orders;
 
   useEffect(() => {
-    if (Object.keys(ingredients).length === 0) {
-      dispatch(getIngredients());
-    }
     if (!orders || Object.keys(orders).length === 0) {
       if (location.pathname.indexOf('profile') >= 0) {
         dispatch({type: WS_USER_CONNECTION_START});

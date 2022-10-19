@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector } from "../../services/hooks";
 import { useDispatch } from '../../services/hooks';
 import { Redirect, Route, Switch, useLocation, useHistory } from 'react-router-dom';
 import styles from './profile.module.css';
@@ -9,7 +9,6 @@ import OrderList from '../../components/order-list/order-list';
 import OrderInfo from '../../components/order-info/order-info';
 import Modal from '../../components/modal/modal';
 import { wsUserConnectionStart } from '../../services/actions/wsUser';
-import { RootState } from '../../services/types';
 
 interface IBackgroundLocation {
   background: {
@@ -26,8 +25,8 @@ const Profile: FC = () => {
   const location = useLocation<IBackgroundLocation | undefined>();
   const history = useHistory();
   const background = history.action === 'PUSH' && location.state && location.state.background;
-  const { isAuth } = useSelector((store: RootState) => store.user);
-  const orders = useSelector((store: RootState | any) => store.userOrders);
+  const { isAuth } = useSelector((store) => store.user);
+  const orders = useSelector((store: any) => store.userOrders);
 
   useEffect(() => {
     if(!orders.wsConnected) {

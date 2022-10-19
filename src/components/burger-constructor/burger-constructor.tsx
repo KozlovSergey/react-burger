@@ -5,14 +5,12 @@ import {
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrop } from "react-dnd";
-import { useSelector } from 'react-redux';
-import { useDispatch } from '../../services/hooks';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { useHistory } from 'react-router-dom';
 import styles from './burger-constructor.module.css';
 import { getOrderNumber } from '../../services/actions';
 import { deleteIngredientFromConstructor, addIngredientToConstructorAction } from '../../services/actions';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
-import { RootState } from '../../services/types';
 import { TIngredient } from '../../services/types/data';
 
 interface IBurgerConstructorProps {
@@ -20,13 +18,13 @@ interface IBurgerConstructorProps {
 }
 
 const BurgerConstructor: FC<IBurgerConstructorProps> = ({openModal}) => {
-  const constructorIngredients = useSelector((store: RootState) => store.burger.constructorIngredients);
-  let total = useSelector((store: RootState) => store.burger.constructorIngredients).reduce((accumulator: number, {price}: any) => {
+  const constructorIngredients = useSelector((store) => store.burger.constructorIngredients);
+  let total = useSelector((store) => store.burger.constructorIngredients).reduce((accumulator: number, {price}: any) => {
     return accumulator + parseInt(price)
   }, 0);
   const dispatch = useDispatch();
-  const burgerBun = useSelector((store: RootState) => store.burger.constructorIngredients).filter((item: TIngredient) => item.type === 'bun');
-  const {isAuth} = useSelector((store: RootState) => store.user);
+  const burgerBun = useSelector((store) => store.burger.constructorIngredients).filter((item: TIngredient) => item.type === 'bun');
+  const {isAuth} = useSelector((store) => store.user);
   const history = useHistory();
 
   const [, dropTarget] = useDrop({
