@@ -18,8 +18,6 @@ import { AppDispatch, AppThunk } from '../types';
 import { TIngredient } from '../types/data';
 import { BASE_URL } from "../../utils/constants";
 
-const token = getCookie('accessToken');
-
 export interface IGetIngredientsRequest {
   readonly type: typeof GET_INGREDIENTS_REQUEST
 }
@@ -154,12 +152,8 @@ export const getIngredients: AppThunk = () => (dispatch: AppDispatch) => {
   const API = `${BASE_URL}/ingredients`;
 
   dispatch(getIngredientsRequestAction())
-  fetch(API).then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка ${res.status}`);
-  })
+  fetch(API)
+    .then(checkResponse)
     .then(data => dispatch(getIngredientsSuccessAction(data.data)))
     .catch(e => {
       dispatch(getIngedientsFailedAction());
@@ -176,11 +170,12 @@ export const getOrderNumber: AppThunk = (ingredients: TIngredient[]) => (dispatc
     "ingredients": ingredients.map((item: TIngredient) => item._id)
   };
 
-  token && fetch(API, {
+  fetch(API, {
     method: 'POST',
+  // @ts-ignore
     headers: {
       'Content-Type': 'application/json',
-      'authorization': token
+      'authorization': getCookie('accessToken')
     },
     body: JSON.stringify(data),
   })

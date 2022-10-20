@@ -19,6 +19,7 @@ import { TIgredientsAndOrdersActions } from '../actions';
 type TIgredientsAndOrderState = {
   ingredients: TIngredient[];
   constructorIngredients: TIngredient[];
+  currentIngredient?: any;
   order: {
     orderNumber: number;
   }
@@ -27,6 +28,7 @@ type TIgredientsAndOrderState = {
 const initialState: TIgredientsAndOrderState = {
   ingredients: [],
   constructorIngredients: [],
+  currentIngredient: '',
   order: {
     orderNumber: 0
   }
@@ -47,6 +49,7 @@ export const getIngredientsReducer = (state = initialState, action: TIgredientsA
     }
     case GET_INGREDIENTS_FAILED: {
       return {
+        ...state,
         ingredients: [],
         constructorIngredients: [],
         currentIngredient: {},
