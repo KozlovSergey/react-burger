@@ -22,7 +22,9 @@ export type TOrder = {
   number: number,
   createdAt: string,
   updatedAt: string,
-  orders: []
+  orders: [],
+  total: number;
+  totalToday: number;
 }
 
 export type TUser = {

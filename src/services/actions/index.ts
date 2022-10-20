@@ -175,6 +175,7 @@ export const getOrderNumber: AppThunk = (ingredients: TIngredient[]) => (dispatc
   const data = {
     "ingredients": ingredients.map((item: TIngredient) => item._id)
   };
+
   token && fetch(API, {
     method: 'POST',
     headers: {
@@ -183,17 +184,14 @@ export const getOrderNumber: AppThunk = (ingredients: TIngredient[]) => (dispatc
     },
     body: JSON.stringify(data),
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      // return Promise.reject(`Ошибка ${res.status}`);
-    })
+    .then(checkResponse)
     .then(data => {
+      console.log('data', data);
       dispatch(getOrderNumberSuccessAction(data.order.number))
     })
     .catch((error) => {
       if ((error.message === 'jwt expired') || (error.message === 'Token is invalid')) {
+        console.log('jwt');
         fetchWithRefresh(`${BASE_URL}/auth/token`, undefined);
       } else {
         dispatch(getOrderNumberFailedAction())

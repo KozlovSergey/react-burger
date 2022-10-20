@@ -15,6 +15,7 @@ import {
 import {AppDispatch, AppThunk} from '../types';
 import {TUser} from '../types/data';
 import { BASE_URL } from "../../utils/constants";
+import checkResponse from "../../utils/checkResponse";
 
 const token = getCookie('accessToken');
 
@@ -50,13 +51,6 @@ export type TUserActions =
   | IIsSuccessful;
 
 const AUTH = `${BASE_URL}/auth`;
-
-function checkResponse(res: Response) {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Ошибка ${res.status}`);
-}
 
 export const register: AppThunk = ({email, password, name}: TUser) => (dispatch: AppDispatch) => {
   dispatch(isRequestingAction());

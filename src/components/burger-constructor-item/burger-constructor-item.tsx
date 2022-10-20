@@ -3,12 +3,12 @@ import {
   ConstructorElement,
   DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
 import { useDrop, useDrag } from 'react-dnd';
 import { replaceItems } from '../../services/actions';
 import { deleteIngredientFromConstructor } from '../../services/actions';
 import styles from './burger-constructor-item.module.css';
 import { TIngredient } from '../../services/types/data';
+import { useDispatch } from "../../services/hooks";
 
 interface IBurgerConstructorItemProps {
   item: TIngredient;
