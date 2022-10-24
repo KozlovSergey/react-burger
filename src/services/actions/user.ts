@@ -17,8 +17,6 @@ import {TUser} from '../types/data';
 import { BASE_URL } from "../../utils/constants";
 import checkResponse from "../../utils/checkResponse";
 
-const token = getCookie('accessToken');
-
 export interface IIsRequesting {
   readonly type: typeof IS_REQUESTING
 }
@@ -190,11 +188,11 @@ export const getUserInfo: AppThunk = (formData: TUser, setFormData: Function) =>
     getToken();
   }
 
-  token && fetch(AUTH + '/user', {
+  fetch(AUTH + '/user', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'authorization': token
+      'authorization': getCookie('accessToken') || 'undefined',
     }
   })
     .then(checkResponse)
@@ -217,11 +215,11 @@ export const updateUserInfo: AppThunk = (formData: TUser) => (dispatch: AppDispa
     getToken();
   }
 
-  token && fetch(AUTH + '/user', {
+  fetch(AUTH + '/user', {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      'authorization': token
+      'authorization': getCookie('accessToken') || 'undefined',
     },
     body: JSON.stringify({...formData})
   })
@@ -234,7 +232,11 @@ export const updateUserInfo: AppThunk = (formData: TUser) => (dispatch: AppDispa
       }
     })
     .catch(e => {
-      dispatch(isFailedAction());
+      if ((e as { message: string }).message === "jwt expired") {
+        getToken();
+      } else {
+        dispatch(isFailedAction());
+      }
     })
 }
 

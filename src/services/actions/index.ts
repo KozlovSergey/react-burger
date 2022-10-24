@@ -172,10 +172,9 @@ export const getOrderNumber: AppThunk = (ingredients: TIngredient[]) => (dispatc
 
   fetch(API, {
     method: 'POST',
-  // @ts-ignore
     headers: {
       'Content-Type': 'application/json',
-      'authorization': getCookie('accessToken')
+      'authorization': getCookie('accessToken') || 'undefined',
     },
     body: JSON.stringify(data),
   })

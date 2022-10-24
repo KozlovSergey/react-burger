@@ -14,7 +14,6 @@ interface IOrderNumbers {
 const Orders: FC = () => {
   const dispatch = useDispatch();
   const orders = useSelector((store: any) => store.orders);
-  console.log('orders', orders);
   const ordersResponse = orders.orders.orders || [];
   const orderList = ordersResponse || [];
 
