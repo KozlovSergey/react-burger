@@ -1,18 +1,17 @@
 import { FC } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector } from "../../services/hooks";
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './order-item.module.css';
 import dataConverter from '../../utils/dataConverter';
 import { TOrder, TIngredient } from '../../services/types/data';
-import { RootState } from '../../services/types';
 
 interface IOrderItemProps {
   order: TOrder;
   showStatus: boolean;
 }
 
-const OrderItem: FC<IOrderItemProps> = ({ order, showStatus = false }) => {
-  const ingredients = useSelector((store: RootState) => store.burger.ingredients);
+const OrderItem: FC<IOrderItemProps> = ({order, showStatus = false}) => {
+  const ingredients = useSelector((store) => store.burger.ingredients);
   let icons: Array<string> = [];
   let totalValue = 0;
 
@@ -70,11 +69,11 @@ const OrderItem: FC<IOrderItemProps> = ({ order, showStatus = false }) => {
               src={src}
               key={index}
               style={{zIndex: 10 - index}}
-              alt=""
+              alt={order.name}
             />
           ))}
           {showMore &&
-          <div className={`text text_type_main-default ${styles.moreItems}`}>+{extraValue}</div>
+            <div className={`text text_type_main-default ${styles.moreItems}`}>+{extraValue}</div>
           }
         </div>
         <div className={styles.total}>

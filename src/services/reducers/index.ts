@@ -19,6 +19,7 @@ import { TIgredientsAndOrdersActions } from '../actions';
 type TIgredientsAndOrderState = {
   ingredients: TIngredient[];
   constructorIngredients: TIngredient[];
+  currentIngredient: null | number;
   order: {
     orderNumber: number;
   }
@@ -27,13 +28,14 @@ type TIgredientsAndOrderState = {
 const initialState: TIgredientsAndOrderState = {
   ingredients: [],
   constructorIngredients: [],
+  currentIngredient: null,
   order: {
     orderNumber: 0
   }
 };
 
-export const getIngredientsReducer = (state = initialState, action: TIgredientsAndOrdersActions) => {
-  switch(action.type) {
+export const getIngredientsReducer = (state = initialState, action: TIgredientsAndOrdersActions): TIgredientsAndOrderState => {
+  switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {
         ...state
@@ -47,9 +49,10 @@ export const getIngredientsReducer = (state = initialState, action: TIgredientsA
     }
     case GET_INGREDIENTS_FAILED: {
       return {
+        ...state,
         ingredients: [],
         constructorIngredients: [],
-        currentIngredient: {},
+        currentIngredient: null,
         order: {
           orderNumber: 0
         }
@@ -64,7 +67,7 @@ export const getIngredientsReducer = (state = initialState, action: TIgredientsA
     case DELETE_CURRENT_INGREDIENT: {
       return {
         ...state,
-        currentIngredient: {}
+        currentIngredient: null
       }
     }
     case ADD_INGREDIENT_TO_CONSTRUCTOR: {
@@ -78,7 +81,7 @@ export const getIngredientsReducer = (state = initialState, action: TIgredientsA
 
       return {
         ...state,
-        constructorIngredients: state.constructorIngredients.filter((item,index) => index !== itemToDeleteIndex )
+        constructorIngredients: state.constructorIngredients.filter((item, index) => index !== itemToDeleteIndex)
       }
     }
     case GET_ORDER_NUMBER_REQUEST: {

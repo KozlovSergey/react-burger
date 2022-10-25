@@ -1,8 +1,7 @@
 import { FC } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector } from "../../services/hooks";
 import { useParams } from 'react-router-dom';
 import styles from './ingredient-details.module.css';
-import { RootState } from '../../services/types';
 import { TIngredient } from '../../services/types/data';
 
 interface IIngredientDetails {
@@ -11,7 +10,7 @@ interface IIngredientDetails {
 
 const IngredientDetails: FC<IIngredientDetails> = ({header}) => {
   const {ingredientId} = useParams<any>();
-  const ingredients = useSelector((store: RootState) => store.burger.ingredients);
+  const ingredients = useSelector((store) => store.burger.ingredients);
   const currentIngredient = ingredients.find((ingredient: TIngredient) => ingredient._id === ingredientId);
 
   return (
@@ -25,7 +24,7 @@ const IngredientDetails: FC<IIngredientDetails> = ({header}) => {
       }
       {currentIngredient && (
         <>
-          <img src={currentIngredient.image_large} alt="" />
+          <img src={currentIngredient.image_large} alt={currentIngredient.name} />
           <h4 className="text_type_main-medium mb-8 mt-4">{currentIngredient.name}</h4>
           <div className={`${styles.info}`}>
             <div className={`${styles.infoItem} mr-5`}>

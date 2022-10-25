@@ -5,7 +5,7 @@ import {
   subDays
 } from 'date-fns';
 
-export default function dataConverter(comparisonDate) {
+export default function dataConverter(comparisonDate: Date) {
   const today = new Date();
   const yesterday = subDays(today, 1);
 

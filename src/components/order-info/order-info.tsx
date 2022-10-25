@@ -1,27 +1,25 @@
 import { FC, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useParams, matchPath} from "react-router-dom";
+import { useSelector, useDispatch } from '../../services/hooks';
+import { useLocation, useParams, matchPath } from "react-router-dom";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { getIngredients } from '../../services/actions';
 import { WS_CONNECTION_START } from '../../services/constants';
 import { WS_USER_CONNECTION_START } from '../../services/constants';
 import dataConverter from '../../utils/dataConverter';
 import styles from './order-info.module.css';
 import cx from 'classnames';
-import { RootState } from '../../services/types';
 import { TIngredient } from '../../services/types/data';
 
 interface IOrderInfoProps {
   className?: string;
 }
 
-const OrderInfo: FC<IOrderInfoProps> = ({ className }) => {
+const OrderInfo: FC<IOrderInfoProps> = ({className}) => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const ordersAll = useSelector((store: RootState | any) => store.orders);
-  const ordersUser = useSelector((store: RootState) => store.userOrders);
-  const ingredients = useSelector((store: RootState) => store.burger.ingredients);
-  let { orderId } = useParams<any>();
+  const ordersAll = useSelector((store: any) => store.orders);
+  const ordersUser = useSelector((store) => store.userOrders);
+  const ingredients = useSelector((store) => store.burger.ingredients);
+  let {orderId} = useParams<any>();
 
   if (!orderId) {
     const match: { params: { orderId: string } } | null = matchPath(location.pathname, {
@@ -35,16 +33,12 @@ const OrderInfo: FC<IOrderInfoProps> = ({ className }) => {
   }
 
   const orders = location.pathname.indexOf('profile') >= 0 ? ordersUser.orders : ordersAll.orders.orders;
-
   useEffect(() => {
-    if (Object.keys(ingredients).length === 0) {
-      dispatch(getIngredients());
-    }
     if (!orders || Object.keys(orders).length === 0) {
       if (location.pathname.indexOf('profile') >= 0) {
-        dispatch({ type: WS_USER_CONNECTION_START });
+        dispatch({type: WS_USER_CONNECTION_START});
       } else {
-        dispatch({ type: WS_CONNECTION_START });
+        dispatch({type: WS_CONNECTION_START});
       }
     }
   }, [dispatch, ingredients, orders, location.pathname]);
@@ -72,8 +66,8 @@ const OrderInfo: FC<IOrderInfoProps> = ({ className }) => {
   let total = 0;
 
   for (const ingredient in ingredientsObj) {
-    const item: TIngredient | undefined = ingredients.find((item: TIngredient ) => item._id === ingredient);
-    if(item) {
+    const item: TIngredient | undefined = ingredients.find((item: TIngredient) => item._id === ingredient);
+    if (item) {
       ingredientsObj[ingredient].name = item.name;
       ingredientsObj[ingredient].img = item.image_mobile;
       ingredientsObj[ingredient].price = item.price;
@@ -91,7 +85,7 @@ const OrderInfo: FC<IOrderInfoProps> = ({ className }) => {
     [key: string]: TCompositionIngredient
   };
 
-  const ingredientsObjLayout = (composition: TComposition ) => {
+  const ingredientsObjLayout = (composition: TComposition) => {
     const array = [];
     for (const ingredient in composition) {
       array.push((
@@ -100,7 +94,7 @@ const OrderInfo: FC<IOrderInfoProps> = ({ className }) => {
             <img
               className={`${styles.ingredient_icon} mr-4`}
               src={composition[ingredient].img}
-              alt=""
+              alt={composition[ingredient].name}
             />
             <span className={`text text_type_main-default`}>{composition[ingredient].name}</span>
           </div>
@@ -154,7 +148,8 @@ const OrderInfo: FC<IOrderInfoProps> = ({ className }) => {
             <div className={styles.time_total}>
             <span
               className="text text_type_main-default text_color_inactive">{dataConverter(new Date(order.createdAt))}</span>
-              <div className={styles.total}><span className={'text text_type_digits-default mr-2'}>{total}</span><CurrencyIcon
+              <div className={styles.total}>
+                <span className={'text text_type_digits-default mr-2'}>{total}</span><CurrencyIcon
                 type="primary"/></div>
             </div>
           </div>

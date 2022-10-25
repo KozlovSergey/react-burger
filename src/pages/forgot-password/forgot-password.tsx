@@ -1,15 +1,14 @@
 import { FC, useState } from 'react';
 import { useDispatch } from '../../services/hooks';
 import { useHistory, useLocation, Link, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector } from "../../services/hooks";
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './forgot-password.module.css';
 import { forgotPassword } from '../../services/actions/user';
-import { RootState } from '../../services/types';
 
 const ForgotPassword: FC = () => {
   const dispatch = useDispatch();
-  const { isAuth } = useSelector((store: RootState) => store.user);
+  const {isAuth} = useSelector((store) => store.user);
   const history = useHistory();
   const location = useLocation();
   const [email, setEmail] = useState<string>('');

@@ -24,9 +24,10 @@ import {
   WS_USER_CONNECTION_ERROR,
   WS_USER_GET_MESSAGE
 } from './services/constants';
+import { WS_BASE_URL } from "./utils/constants";
 
-const WS_URL = 'wss://norma.nomoreparties.space/orders/all';
-const WS_USER_URL = 'wss://norma.nomoreparties.space/orders';
+const WS_URL = `${WS_BASE_URL}/orders/all`;
+const WS_USER_URL = `${WS_BASE_URL}/orders`;
 
 declare global {
   interface Window {

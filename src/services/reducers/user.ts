@@ -4,8 +4,8 @@ import {
   IS_SUCCESSFUL
 } from '../constants';
 
-import { getCookie } from '../cookies';
-import { TUserActions } from '../actions/user';
+import {getCookie} from '../cookies';
+import {TUserActions} from '../actions/user';
 
 type TUserState = {
   isRequesting: boolean;
@@ -20,7 +20,7 @@ const initialState: TUserState = {
 };
 
 export const userReducer = (state = initialState, action: TUserActions) => {
-  switch(action.type) {
+  switch (action.type) {
     case IS_REQUESTING: {
       return {
         ...state,

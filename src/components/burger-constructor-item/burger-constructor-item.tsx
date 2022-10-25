@@ -3,19 +3,19 @@ import {
   ConstructorElement,
   DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
 import { useDrop, useDrag } from 'react-dnd';
 import { replaceItems } from '../../services/actions';
 import { deleteIngredientFromConstructor } from '../../services/actions';
 import styles from './burger-constructor-item.module.css';
 import { TIngredient } from '../../services/types/data';
+import { useDispatch } from "../../services/hooks";
 
 interface IBurgerConstructorItemProps {
   item: TIngredient;
   index: number;
 }
 
-const BurgerConstructorItem: FC<IBurgerConstructorItemProps> = ({ item, index}) => {
+const BurgerConstructorItem: FC<IBurgerConstructorItemProps> = ({item, index}) => {
   const dispatch = useDispatch();
 
   const deleteIngredient = (item: TIngredient) => {
@@ -55,10 +55,10 @@ const BurgerConstructorItem: FC<IBurgerConstructorItemProps> = ({ item, index}) 
     }
   });
 
-  const [{ isDragging }, drag] = useDrag({
+  const [{isDragging}, drag] = useDrag({
     type: 'constructorIngredient',
     item: () => {
-      return { id: item._id, index: index };
+      return {id: item._id, index: index};
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging()
@@ -72,11 +72,11 @@ const BurgerConstructorItem: FC<IBurgerConstructorItemProps> = ({ item, index}) 
   return (
     <div
       className={`${styles.item} mb-4`}
-      style={{ opacity }}
+      style={{opacity}}
       ref={ref}
       draggable
     >
-      <DragIcon type="primary" />
+      <DragIcon type="primary"/>
       <ConstructorElement
         isLocked={false}
         text={item.name}

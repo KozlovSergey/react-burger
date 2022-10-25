@@ -1,4 +1,4 @@
-import { getCookie } from "../cookies";
+import { getCookie, setCookie } from "../cookies";
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
@@ -16,8 +16,8 @@ import {
 
 import { AppDispatch, AppThunk } from '../types';
 import { TIngredient } from '../types/data';
-
-const token = getCookie('accessToken');
+import { BASE_URL } from "../../utils/constants";
+import { getToken } from "./user";
 
 export interface IGetIngredientsRequest {
   readonly type: typeof GET_INGREDIENTS_REQUEST
@@ -150,15 +150,11 @@ export type TIgredientsAndOrdersActions =
   | IReplaceIngredients;
 
 export const getIngredients: AppThunk = () => (dispatch: AppDispatch) => {
-  const API = 'https://norma.nomoreparties.space/api/ingredients';
+  const API = `${BASE_URL}/ingredients`;
 
   dispatch(getIngredientsRequestAction())
-  fetch(API).then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка ${res.status}`);
-  })
+  fetch(API)
+    .then(checkResponse)
     .then(data => dispatch(getIngredientsSuccessAction(data.data)))
     .catch(e => {
       dispatch(getIngedientsFailedAction());
@@ -167,36 +163,92 @@ export const getIngredients: AppThunk = () => (dispatch: AppDispatch) => {
 }
 
 export const getOrderNumber: AppThunk = (ingredients: TIngredient[]) => (dispatch: AppDispatch) => {
-  const API = 'https://norma.nomoreparties.space/api/orders';
+  const API = `${BASE_URL}/orders`;
 
   dispatch(getOrderNumberRequestAction());
 
   const data = {
     "ingredients": ingredients.map((item: TIngredient) => item._id)
   };
-  token && fetch(API, {
+
+  fetch(API, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'authorization': token
+      'authorization': getCookie('accessToken') || 'undefined',
     },
     body: JSON.stringify(data),
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка ${res.status}`);
-    })
+    .then(checkResponse)
     .then(data => {
+      console.log('data', data);
       dispatch(getOrderNumberSuccessAction(data.order.number))
     })
     .catch((error) => {
-      dispatch(getOrderNumberFailedAction())
-      console.error('Error:', error);
+      if ((error.message === 'jwt expired') || (error.message === 'Token is invalid')) {
+        console.log('jwt');
+        getToken();
+        // fetchWithRefresh(`${BASE_URL}/auth/token`, undefined);
+      } else {
+        dispatch(getOrderNumberFailedAction())
+        console.error('Error:', error);
+      }
     });
 }
 
 export const replaceItems: AppThunk = (dragIndex: number, hoverIndex: number) => (dispatch: AppDispatch) => {
   dispatch(replaceIngredientsAction(dragIndex, hoverIndex));
+}
+
+// const refreshToken = (afterRefresh: any) => (dispatch: (arg0: any) => void) => {
+//   refreshTokenRequest()
+//     .then((res) => {
+//       saveTokens(res.refreshToken, res.accessToken);
+//       dispatch(afterRefresh);
+//     })
+// };
+
+const checkResponse = (res: Response) => {
+  return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+}
+
+const saveTokens = (refreshToken: string, accessToken: string | null) => {
+  setCookie('accessToken', accessToken);
+  localStorage.setItem('refreshToken', refreshToken);
+}
+
+const refreshTokenRequest = () => {
+  return fetch(`${BASE_URL}/auth/token`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    body: JSON.stringify({
+      token: localStorage.getItem('refreshToken')
+    })
+  })
+    .then(checkResponse)
+}
+
+export const fetchWithRefresh = async(url: RequestInfo, options: RequestInit | undefined) => {
+  try {
+    const res = await fetch(url, options);
+
+    return await checkResponse(res);
+  } catch (err) {
+    // @ts-ignore
+    if (err.message === 'jwt expired') {
+      const {refreshToken, accessToken} = await refreshTokenRequest();
+      saveTokens(refreshToken, accessToken);
+
+      // @ts-ignore
+      options.headers.authorization = accessToken;
+
+      const res = await fetch(url, options);
+
+      return await checkResponse(res);
+    } else {
+      return Promise.reject(err);
+    }
+  }
 }

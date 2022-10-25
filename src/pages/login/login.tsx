@@ -1,10 +1,9 @@
 import { FC, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { loginning } from '../../services/actions/user';
 import styles from './login.module.css';
-import { RootState } from '../../services/types';
 
 interface IUseLocation {
   from: string;
@@ -17,8 +16,8 @@ interface IUseState {
 
 const Login: FC = () => {
   const dispatch = useDispatch();
-  const { isAuth } = useSelector((store: RootState) => store.user);
-  const { state } = useLocation<IUseLocation>();
+  const {isAuth} = useSelector((store) => store.user);
+  const {state} = useLocation<IUseLocation>();
 
   const [formData, setFormData] = useState<IUseState>({
     email: '',
@@ -34,7 +33,7 @@ const Login: FC = () => {
 
   const onLogging = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(loginning({ ...formData }));
+    dispatch(loginning({...formData}));
   }
 
   if (isAuth) {
@@ -82,7 +81,8 @@ const Login: FC = () => {
         </div>
         <div className={styles.logging}>
           <span className="text_type_main-default">Забыли пароль?</span>
-          <Link to="/forgot-password" className={`${styles.link} ml-2 text_type_main-default`}>Восстановить пароль</Link>
+          <Link to="/forgot-password" className={`${styles.link} ml-2 text_type_main-default`}>Восстановить
+            пароль</Link>
         </div>
       </div>
     </div>

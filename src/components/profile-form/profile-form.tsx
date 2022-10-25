@@ -1,4 +1,4 @@
-import  React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { useDispatch } from '../../services/hooks';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getUserInfo, updateUserInfo } from '../../services/actions/user';
@@ -29,7 +29,7 @@ const ProfileForm: FC = () => {
 
     let mounted = true;
 
-    if(mounted) {
+    if (mounted) {
       dispatch(getUserInfo(formData, setFormData));
     }
 
