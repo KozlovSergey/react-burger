@@ -15,16 +15,20 @@ export type TIngredient = {
 };
 
 export type TOrder = {
+  createdAt: string,
   ingredients: string[],
   name: string,
-  _id: string,
-  status: 'done' | 'pending' | 'created';
   number: number,
-  createdAt: string,
+  status: 'done' | 'pending' | 'created';
   updatedAt: string,
-  orders: [],
-  total: number;
-  totalToday: number;
+  _id: string,
+}
+
+export type TOrderMessage = {
+  success: boolean,
+  orders: ReadonlyArray<TOrder>,
+  total: number,
+  totalToday : number,
 }
 
 export type TUser = {

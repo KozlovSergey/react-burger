@@ -188,7 +188,7 @@ export const getOrderNumber: AppThunk = (ingredients: TIngredient[]) => (dispatc
       if ((error.message === 'jwt expired') || (error.message === 'Token is invalid')) {
         console.log('jwt');
         getToken();
-        fetchWithRefresh(`${BASE_URL}/auth/token`, undefined);
+        // fetchWithRefresh(`${BASE_URL}/auth/token`, undefined);
       } else {
         dispatch(getOrderNumberFailedAction())
         console.error('Error:', error);

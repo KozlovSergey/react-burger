@@ -33,7 +33,6 @@ const OrderInfo: FC<IOrderInfoProps> = ({className}) => {
   }
 
   const orders = location.pathname.indexOf('profile') >= 0 ? ordersUser.orders : ordersAll.orders.orders;
-
   useEffect(() => {
     if (!orders || Object.keys(orders).length === 0) {
       if (location.pathname.indexOf('profile') >= 0) {
