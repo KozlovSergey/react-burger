@@ -241,12 +241,18 @@ export const updateUserInfo: AppThunk = (formData: TUser) => (dispatch: AppDispa
 }
 
 export const getToken: AppThunk = () => (dispatch: AppDispatch) => {
+  console.log('getToken');
   dispatch(isRequestingAction());
   fetch(AUTH + '/token', {
     method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json'
     },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
     body: JSON.stringify({
       token: getCookie('refreshToken')
     })

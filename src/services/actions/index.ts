@@ -17,6 +17,7 @@ import {
 import { AppDispatch, AppThunk } from '../types';
 import { TIngredient } from '../types/data';
 import { BASE_URL } from "../../utils/constants";
+import { getToken } from "./user";
 
 export interface IGetIngredientsRequest {
   readonly type: typeof GET_INGREDIENTS_REQUEST
@@ -186,6 +187,7 @@ export const getOrderNumber: AppThunk = (ingredients: TIngredient[]) => (dispatc
     .catch((error) => {
       if ((error.message === 'jwt expired') || (error.message === 'Token is invalid')) {
         console.log('jwt');
+        getToken();
         fetchWithRefresh(`${BASE_URL}/auth/token`, undefined);
       } else {
         dispatch(getOrderNumberFailedAction())
